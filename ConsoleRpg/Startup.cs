@@ -78,6 +78,7 @@ public static class Startup
         services.AddTransient<RoomService>();
         services.AddTransient<RoomUI>();
         services.AddTransient<SeedHandler>();
+        services.AddTransient<StatFactory>();
         services.AddTransient<StatService>();
         services.AddSingleton<UnitClassMenu>();
         services.AddTransient<UnitItemService>();

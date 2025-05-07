@@ -17,17 +17,19 @@ public class CharacterUtilities
     private readonly CharacterUI _characterUI;
     private readonly LevelUpMenu _levelUpMenu;
     private readonly UnitService _unitService;
+    private readonly StatFactory _statFactory;
     private readonly StatService _statService;
     private readonly RoomMenu _roomMenu;
     private readonly UnitClassMenu _unitClassMenu;
     private readonly UnitSelectionMenu _unitSelectionMenu;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(CharacterUI characterUI, UnitClassMenu unitClassMenu, LevelUpMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, UnitSelectionMenu unitSelectionMenu)
+    public CharacterUtilities(CharacterUI characterUI, UnitClassMenu unitClassMenu, LevelUpMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, UnitSelectionMenu unitSelectionMenu)
     {
         _characterUI = characterUI;
         _levelUpMenu = levelUpMenu;
         _unitService = unitService;
+        _statFactory = statFactory;
         _statService = statService;
         _roomMenu = roomMenu;
         _unitClassMenu = unitClassMenu;
@@ -55,20 +57,7 @@ public class CharacterUtilities
 
         character.UnitItems = unitItems;
 
-        Stat stat = new()
-        {
-            HitPoints = hitPoints,
-            MaxHitPoints = hitPoints,
-            Movement = 5,
-            Constitution = 5,
-            Strength = 8,
-            Magic = 8,
-            Dexterity = 8,
-            Speed = 8,
-            Luck = 8,
-            Defense = 8,
-            Resistance = 8
-        };
+        Stat stat = _statFactory.CreateStat(character);
 
         character.Stat = stat;
 
