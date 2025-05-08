@@ -41,31 +41,28 @@ public class CharacterUtilities
         Type characterClass = _unitClassMenu.Display($"Please select a class for {name}", "[[Cancel Character Creation]]");
         if (characterClass == null) return;
         int level = Input.GetInt("Enter your character's level: ", 1, Config.CHARACTER_LEVEL_MAX, $"character level must be 1-{Config.CHARACTER_LEVEL_MAX}");
-        int hitPoints = Input.GetInt("Enter your character's maximum hit points: ", 1, "must be greater than 0");
 
-        Console.Clear();
-        Console.WriteLine($"\nWelcome, {name} the {characterClass.Name}! You are level {level} and have {hitPoints} health.\n");
-
-        //_unitManager.Characters.AddUnit(new(name, characterClass, level, hitPoints, inventory));
         dynamic character = Activator.CreateInstance(characterClass);
         character.Name = name;
         character.Class = characterClass.Name;
         character.Level = level;
 
+        Stat stat = _statFactory.CreateStat(character);
+        character.Stat = stat;
+
         List<UnitItem> unitItems = new();
-
-
         character.UnitItems = unitItems;
 
-        Stat stat = _statFactory.CreateStat(character);
-
-        character.Stat = stat;
 
         IRoom room = _roomMenu.Display($"Select room for {character.Name}","[[No Room]]");
         if (room != null)
         {
             character.CurrentRoom = (Room)room;
         }
+
+        Console.Clear();
+        Console.WriteLine($"\nWelcome, {name} the {characterClass.Name}! You are level {level} and have {stat.MaxHitPoints} health.\n");
+
         _statService.Add(character.Stat);
         _unitService.Add(character);
         _statService.Commit();
