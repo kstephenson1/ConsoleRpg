@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleRpg;
 
-class Program
+static class Program
 {
     static void Main()
     {
