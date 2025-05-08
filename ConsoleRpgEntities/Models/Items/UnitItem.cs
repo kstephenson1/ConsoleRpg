@@ -1,9 +1,10 @@
 ﻿using ConsoleRpgEntities.DataTypes;
-using ConsoleRpgEntities.Models.Items;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ConsoleRpgEntities.Models.Items;
 
 [PrimaryKey("UnitId", "ItemId")]
 public class UnitItem : IDatabaseEntity

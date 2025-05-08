@@ -1,5 +1,6 @@
 ﻿using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
+using ConsoleRpgEntities.Models.Items;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 

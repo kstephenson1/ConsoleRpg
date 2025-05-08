@@ -11,6 +11,7 @@ using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using Spectre.Console;
 using ConsoleRpgEntities.Services.Repositories;
+using ConsoleRpgEntities.Models.Items;
 
 public class CharacterUtilities
 {

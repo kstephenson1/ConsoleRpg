@@ -1,6 +1,7 @@
 ﻿using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Commands;
 using ConsoleRpgEntities.Models.Interfaces.InventoryBehaviors;
+using ConsoleRpgEntities.Models.Items;
 
 namespace ConsoleRpgEntities.Models.Commands.ItemCommands;
 

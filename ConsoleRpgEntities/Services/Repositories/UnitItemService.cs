@@ -1,4 +1,6 @@
-﻿namespace ConsoleRpgEntities.Services.Repositories;
+﻿using ConsoleRpgEntities.Models.Items;
+
+namespace ConsoleRpgEntities.Services.Repositories;
 public class UnitItemService : IService<UnitItem>
 {
     private readonly IRepository<UnitItem> _repo;
