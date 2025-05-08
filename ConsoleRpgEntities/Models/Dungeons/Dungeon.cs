@@ -27,6 +27,7 @@ public class Dungeon : IDatabaseEntity
         while (true)
         {
             currentRoom = _roomNavigationMenu.Display(currentRoom, "NavigationMenu", "Go Back");
+            if (currentRoom == null) break;
         }
     }
 }
