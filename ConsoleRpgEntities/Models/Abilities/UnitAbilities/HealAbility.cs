@@ -1,7 +1,7 @@
 ﻿using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 
-namespace ConsoleRpgEntities.Models.Abilities;
+namespace ConsoleRpgEntities.Models.Abilities.UnitAbilities;
 
 public class HealAbility : Ability
 {
