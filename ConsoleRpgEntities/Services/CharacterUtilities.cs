@@ -16,16 +16,16 @@ using ConsoleRpgEntities.Models.Items;
 public class CharacterUtilities
 {
     private readonly CharacterUI _characterUI;
-    private readonly LevelUpMenu _levelUpMenu;
+    private readonly LevelUpCharacterMenu _levelUpMenu;
     private readonly UnitService _unitService;
     private readonly StatFactory _statFactory;
     private readonly StatService _statService;
     private readonly RoomMenu _roomMenu;
-    private readonly UnitClassMenu _unitClassMenu;
-    private readonly UnitSelectionMenu _unitSelectionMenu;
+    private readonly UnitClassSelectionMenu _unitClassMenu;
+    private readonly PartyUnitSelectionMenu _unitSelectionMenu;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(CharacterUI characterUI, UnitClassMenu unitClassMenu, LevelUpMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, UnitSelectionMenu unitSelectionMenu)
+    public CharacterUtilities(CharacterUI characterUI, UnitClassSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu unitSelectionMenu)
     {
         _characterUI = characterUI;
         _levelUpMenu = levelUpMenu;
@@ -67,6 +67,24 @@ public class CharacterUtilities
         _statService.Add(character.Stat);
         _unitService.Add(character);
         _statService.Commit();
+    }
+
+    public void EditCharacter() // Asks the user for a name and displays a character based on input.
+    {
+        string characterName = Input.GetString("What is the name of the character you would like to edit? ");
+        Unit character = FindCharacterByName(characterName)!;
+        Console.Clear();
+        if (character != null)
+        {
+            _characterUI.DisplayCharacterInfo(character);
+            //_unitClassMenu.Display($"Select a new class for {character.Name}", "[[Cancel Character Edit]]", character);
+            _unitService.Update(character);
+            _unitService.Commit();
+        }
+        else
+        {
+            AnsiConsole.MarkupLine($"[Red]No characters found with the name {characterName}\n[/]");
+        }
     }
 
     public void FindCharacterByName() // Asks the user for a name and displays a character based on input.

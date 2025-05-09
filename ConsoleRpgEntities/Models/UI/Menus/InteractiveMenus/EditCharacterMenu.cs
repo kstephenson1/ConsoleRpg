@@ -1,19 +1,19 @@
 ﻿namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
-public class LevelUpMenu : InteractiveSelectionMenu<int>
+public class EditCharacterMenu : InteractiveSelectionMenu<Action>
 {
-    // LevelUpMenu is used to level up or down a unit.  It allows the user to select -1 or 1 to decrease or increase
+    // LevelUpCharacterMenu is used to level up or down a unit.  It allows the user to select -1 or 1 to decrease or increase
     // the unit's level. Returns 0 if the user selects the _exit option.
 
 
-    public LevelUpMenu()
+    public EditCharacterMenu()
     {
 
     }
 
-    public override int Display(string prompt, string exitMessage)
+    public override Action Display(string prompt, string exitMessage)
     {
-        int selection = default!;
+        Action selection = default!;
         bool exit = false;
         while (exit != true)
         {
@@ -32,10 +32,10 @@ public class LevelUpMenu : InteractiveSelectionMenu<int>
     {
         _menuItems = new();
 
-        AddMenuItem($"-1", $"Decreases level by 1", -1);
-        AddMenuItem($"+1", $"Increases level by 1", 1);
+        AddMenuItem($"Edit Name", $"Changes the name of this unit.", null);
+        AddMenuItem($"+1", $"Increases level by 1", null);
 
-        AddMenuItem(exitMessage, $"", 0);
+        AddMenuItem(exitMessage, $"", null);
     }
 }
 

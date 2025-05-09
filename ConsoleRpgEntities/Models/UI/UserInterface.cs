@@ -12,18 +12,20 @@ public class UserInterface
     public InventoryMenu InventoryMenu { get; private set; } = new();
     public MainMenu MainMenu { get; private set; }
     public MainMenuInventory MainMenuInventory { get; private set; }
-    public UnitSelectionMenu UnitSelectionMenu { get; private set; }
-    public UnitClassMenu UnitClassMenu { get; private set; }
+    public PartyUnitSelectionMenu PartyUnitSelectionMenu { get; private set; }
+    public EnemyUnitSelectionMenu EnemyUnitSelectionMenu { get; private set; }
+    public UnitClassSelectionMenu UnitClassMenu { get; private set; }
 
-    public UserInterface(MainMenu mainMenu, MainMenuInventory mainMenuInventory, UnitSelectionMenu unitSelectionMenu, ExitMenu exitMenu, CommandMenu commandMenu, InventoryMenu inventoryMenu, ItemCommandMenu itemCommandMenu, UnitClassMenu unitClassMenu)
+    public UserInterface(MainMenu mainMenu, MainMenuInventory mainMenuInventory, PartyUnitSelectionMenu partyUnitSelectionMenu, EnemyUnitSelectionMenu enemyUnitSelectionMenu, ExitMenu exitMenu, CommandMenu commandMenu, InventoryMenu inventoryMenu, ItemCommandMenu itemCommandMenu, UnitClassSelectionMenu unitClassMenu)
     {
         CommandMenu = commandMenu;
+        EnemyUnitSelectionMenu = enemyUnitSelectionMenu;
         ExitMenu = exitMenu;
         ItemCommandMenu = itemCommandMenu;
         InventoryMenu = inventoryMenu;
         MainMenu = mainMenu;
         MainMenuInventory = mainMenuInventory;
-        UnitSelectionMenu = unitSelectionMenu;
+        PartyUnitSelectionMenu = partyUnitSelectionMenu;
         UnitClassMenu = unitClassMenu;
     }
 }

@@ -55,7 +55,7 @@ public class CommandHandler
                                 unit.UseItem(item);
                                 break;
                             case TradeItemCommand:
-                                IUnit tradeTarget = _userInterface.UnitSelectionMenu.Display($"Select unit to trade {item} to.", "[[Go Back]]");
+                                IUnit tradeTarget = _userInterface.PartyUnitSelectionMenu.Display($"Select unit to trade {item} to.", "[[Go Back]]");
                                 unit.TradeItem(item, tradeTarget);
                                 break;
                             case DropItemCommand:
@@ -77,7 +77,7 @@ public class CommandHandler
         {
             if (unit is IAttack && InventoryHelper.GetEquippedWeapon((Unit)unit) != null)
             {
-                IUnit targetUnit = _userInterface.UnitSelectionMenu.Display($"Select unit being attacked by {unit.Name}", "[[Go Back]]");
+                IUnit targetUnit = _userInterface.EnemyUnitSelectionMenu.Display($"Select unit being attacked by {unit.Name}", "[[Go Back]]");
                 if (targetUnit != null)
                 {
                     unit.Attack(targetUnit);

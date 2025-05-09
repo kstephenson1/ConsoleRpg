@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
-using ConsoleRpgEntities.Services;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
-public class UnitClassMenu : InteractiveSelectionMenu<Type>
+public class UnitClassSelectionMenu : InteractiveSelectionMenu<Type>
 {
-    // UnitClassMenu is used to select a unit class from a list of unit classes.  It's used for character creation.
+    // UnitClassSelectionMenu is used to select a unit class from a list of unit classes.  It's used for character creation.
 
-    public UnitClassMenu()
+    public UnitClassSelectionMenu()
     {
 
     }

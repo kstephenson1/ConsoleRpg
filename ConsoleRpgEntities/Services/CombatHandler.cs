@@ -19,7 +19,7 @@ public class CombatHandler
         while (true)
         {
             // Asks the user to choose a unit.
-            IUnit unit = _userInterface.UnitSelectionMenu.Display("Select unit to control", "[[Exit Game]]");
+            IUnit unit = _userInterface.PartyUnitSelectionMenu.Display("Select unit to control", "[[Exit Game]]");
             if (unit == null) break;
 
             // If the selected unit is down, restarts

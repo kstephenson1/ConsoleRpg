@@ -1,11 +1,10 @@
 ﻿using ConsoleRpgEntities.Models.Combat;
-using ConsoleRpgEntities.Models.Interfaces;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 public class StatSelectionMenu : InteractiveSelectionMenu<string>
 {
-    // LevelUpMenu is used to level up or down a unit.  It allows the user to select -1 or 1 to decrease or increase
+    // LevelUpCharacterMenu is used to level up or down a unit.  It allows the user to select -1 or 1 to decrease or increase
     // the unit's level. Returns 0 if the user selects the _exit option.
 
 

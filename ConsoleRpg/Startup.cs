@@ -55,6 +55,7 @@ public static class Startup
         services.AddTransient<CommandMenu>();
         services.AddTransient<DungeonFactory>();
         services.AddTransient<DungeonService>();
+        services.AddTransient<EnemyUnitSelectionMenu>();
         services.AddTransient<ExitMenu>();
         services.AddDbContext<GameContext>(options => options
         .UseSqlServer(configuration.GetConnectionString("DbConnection"))
@@ -69,9 +70,10 @@ public static class Startup
         services.AddTransient<IRepository<UnitItem>, Repository<UnitItem>>();
         services.AddTransient<ItemCommandMenu>();
         services.AddTransient<ItemService>();
-        services.AddTransient<LevelUpMenu>();
+        services.AddTransient<LevelUpCharacterMenu>();
         services.AddTransient<MainMenu>();
         services.AddTransient<MainMenuInventory>();
+        services.AddTransient<PartyUnitSelectionMenu>();
         services.AddTransient<RoomFactory>();
         services.AddTransient<RoomMenu>();
         services.AddTransient<RoomNavigationMenu>();
@@ -81,9 +83,8 @@ public static class Startup
         services.AddTransient<StatFactory>();
         services.AddTransient<StatSelectionMenu>();
         services.AddTransient<StatService>();
-        services.AddSingleton<UnitClassMenu>();
+        services.AddSingleton<UnitClassSelectionMenu>();
         services.AddTransient<UnitItemService>();
-        services.AddTransient<UnitSelectionMenu>();
         services.AddTransient<UnitService>();
         services.AddTransient<UserInterface>();
     }
