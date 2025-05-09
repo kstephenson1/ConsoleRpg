@@ -19,7 +19,7 @@ public class RoomFactory
             "-------------------" +
             "    CREATE ROOM    " +
             "-------------------\n");
-        string name = Input.GetString("Enter Name for new room:");
+        string name = Input.GetString("Enter Name for new room: ");
         string desc = Input.GetString($"Enter Description for room \"{name}\": ");
         Room room = new(name, desc);
         _roomService.Add(room);
