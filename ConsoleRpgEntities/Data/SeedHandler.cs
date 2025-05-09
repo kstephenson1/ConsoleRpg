@@ -1,5 +1,5 @@
 ﻿using ConsoleRpgEntities.DataTypes;
-using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.Abilities.UnitAbilities;
 using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Dungeons;
 using ConsoleRpgEntities.Models.Items;
@@ -26,7 +26,6 @@ public class SeedHandler
     private readonly AbilityService _abilityService;
     private readonly UnitItemService _unitItemService;
 
-    //private GameContext _db;
     private readonly RoomFactory _roomFactory;
 
     private List<Room> _rooms = new();

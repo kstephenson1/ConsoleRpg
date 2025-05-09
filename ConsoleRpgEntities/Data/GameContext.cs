@@ -1,4 +1,5 @@
 ﻿using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.Abilities.UnitAbilities;
 using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Dungeons;
 using ConsoleRpgEntities.Models.Items;

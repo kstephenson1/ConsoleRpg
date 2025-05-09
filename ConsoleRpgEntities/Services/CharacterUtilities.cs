@@ -262,4 +262,22 @@ public class CharacterUtilities
 
         _characterUI.DisplayCharacterInfo(units);
     }
+
+    public void AddAbilityToCharacter() // Adds an ability to a character.
+    {
+        Type abilityType = _unitClassMenu.Display("Select an ability to add to a character.", "[[Cancel Ability Selection]]");
+        if (abilityType == null) return;
+        IUnit unit = _unitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
+        if (unit == null) return;
+
+        dynamic ability = Activator.CreateInstance(abilityType);
+
+        if (unit is Unit)
+        {
+            Unit character = (Unit)unit;
+            character.Abilities.Add(ability);
+            _unitService.Update(character);
+            _unitService.Commit();
+        }
+    }
 }
