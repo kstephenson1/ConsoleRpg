@@ -16,7 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NReco.Logging.File;
 
 namespace ConsoleRpg;
 
@@ -26,25 +25,6 @@ public static class Startup
     {
         // Get the configuration from appsettings.json
         IConfiguration configuration = ConfigurationHelper.GetConfiguration();
-
-        // Configure FileLoggerOptions from configuration
-        FileLoggerOptions fileLoggerOptions = new();
-        configuration.GetSection("Logging:File").Bind(fileLoggerOptions);
-
-        // Configure logging
-        services.AddLogging(loggingBuilder =>
-        {
-            // Clear existing providers to avoid duplicate logs
-            loggingBuilder.ClearProviders();
-            loggingBuilder.AddConfiguration(configuration.GetSection("Logging"));
-
-            // Add Console logger
-            loggingBuilder.AddConsole();
-
-            // Add File logger with options from configuration
-            string? logFileName = "Logs/log.txt"; // Specify the log file path
-            loggingBuilder.AddProvider(new FileLoggerProvider(logFileName, fileLoggerOptions));
-        });
 
         // Register services for dependency injection
         services.AddTransient<AbilityService>();
@@ -58,8 +38,10 @@ public static class Startup
         services.AddTransient<EnemyUnitSelectionMenu>();
         services.AddTransient<ExitMenu>();
         services.AddDbContext<GameContext>(options => options
-        .UseSqlServer(configuration.GetConnectionString("DbConnection"))
-        .UseLazyLoadingProxies());
+            .UseSqlServer(configuration.GetConnectionString("DbConnection"))
+            .UseLazyLoadingProxies()
+            .UseLoggerFactory(MyLoggerFactory)
+            .EnableSensitiveDataLogging());
         services.AddTransient<InventoryMenu>();
         services.AddTransient<IRepository<Ability>,Repository<Ability>>();
         services.AddTransient<IRepository<Dungeon>, Repository<Dungeon>>();
@@ -88,4 +70,11 @@ public static class Startup
         services.AddTransient<UnitService>();
         services.AddTransient<UserInterface>();
     }
+
+    public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder =>
+    {
+        builder
+            .ClearProviders()
+            .AddFile("Logs/game-log.txt");
+    });
 }
