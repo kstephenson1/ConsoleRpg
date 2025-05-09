@@ -22,14 +22,7 @@ public class GameEngine
     {
         Initialization();
         Run();
-        //Test();
         End();
-    }
-
-    void Test()
-    {
-        var alice = _c.Units.Where(u => u.Name == "Alice").FirstOrDefault();
-
     }
 
     public void Initialization()
