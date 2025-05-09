@@ -43,6 +43,7 @@ public class MainMenu : InteractiveMenu
     {
         _menuItems = new();
         AddMenuItem("Display Characters", "Displays all characters and items in their inventory.", _characterUtilities.DisplayCharacters);
+        AddMenuItem("Edit Character", "Select a unit and change it's properties.", _characterUtilities.EditCharacter);
         AddMenuItem("Display Rooms", "Displays all rooms and their descriptions.", _roomUI.DisplayRooms);
         AddMenuItem("Find Character by Name", "Finds an existing character by name.", _characterUtilities.FindCharacterByName);
         AddMenuItem("Find Character by List", "Shows a list of units to select from", _characterUtilities.FindCharacterByList);

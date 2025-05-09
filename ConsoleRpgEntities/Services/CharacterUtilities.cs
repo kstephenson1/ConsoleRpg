@@ -71,19 +71,48 @@ public class CharacterUtilities
 
     public void EditCharacter() // Asks the user for a name and displays a character based on input.
     {
-        string characterName = Input.GetString("What is the name of the character you would like to edit? ");
-        Unit character = FindCharacterByName(characterName)!;
+        Unit character = ReturnCharacterByList("Select unit to edit.");
         Console.Clear();
         if (character != null)
         {
             _characterUI.DisplayCharacterInfo(character);
-            //_unitClassMenu.Display($"Select a new class for {character.Name}", "[[Cancel Character Edit]]", character);
+
+            string newName = Input.GetString($"Please enter a new name for {character.Name}. (Leave blank to keep name) ", false);
+            if (newName != "")
+            {
+                Console.WriteLine($"Name changed from {character.Name} to {newName}");
+                character.Name = newName;
+            }
+            else
+            {
+                Console.WriteLine($"{character.Name}'s name has not been changed.");
+            }
+
+            int newLevel = Input.GetInt($"Please enter a new level for {character.Name}. (Enter 0 to keep level the same) ", 0, Config.CHARACTER_LEVEL_MAX, $"character level must be 1-{Config.CHARACTER_LEVEL_MAX}");
+            if (newLevel != 0)
+            {
+                Console.WriteLine($"Level changed from {character.Level} to {newLevel}");
+                character.Level = newLevel;
+            }
+            else
+            {
+                Console.WriteLine($"{character.Name}'s level has not been changed.");
+            }
+
+            int newHitPoints = Input.GetInt($"Please enter a new hitpoints for {character.Name}. (Enter 0 to keep hitpoints the same) ", 0, 60, $"hitpoints must be between 1 and {60}");
+            if (newHitPoints != 0)
+            {
+                Console.WriteLine($"Hitpoints changed from {character.Stat.MaxHitPoints} to {newHitPoints}");
+                character.Stat.MaxHitPoints = newHitPoints;
+                character.Stat.HitPoints = newHitPoints;
+            }
+            else
+            {
+                Console.WriteLine($"{character.Name}'s hitpoints have not been changed.");
+            }
+
             _unitService.Update(character);
             _unitService.Commit();
-        }
-        else
-        {
-            AnsiConsole.MarkupLine($"[Red]No characters found with the name {characterName}\n[/]");
         }
     }
 
@@ -124,6 +153,13 @@ public class CharacterUtilities
     {
         Unit unit = _unitService.GetAll().Where(c => c.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
         return unit;
+    }
+
+    public Unit ReturnCharacterByList(string prompt) // Asks the user for a name and displays a character based on input.
+    {
+        IUnit unit = _unitSelectionMenu.Display(prompt, "[[Cancel Character Search]]");
+
+        return unit as Unit;
     }
 
     public void LevelUp() //Asks the user for a character to level up, then displays that character.
