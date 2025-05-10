@@ -36,6 +36,11 @@ public class ItemService : IService<Item>
         return _repo.GetAll();
     }
 
+    public Item Get(string itemName)
+    {
+        return _repo.GetAll().FirstOrDefault(i => i.Name == itemName);
+    }
+
     public Item? GetById(int id)
     {
         return _repo.GetById(id);
