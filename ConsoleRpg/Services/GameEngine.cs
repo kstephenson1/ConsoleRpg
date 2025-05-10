@@ -9,7 +9,6 @@ public class GameEngine
     private readonly SeedHandler _seedHandler;
     private readonly UserInterface _userInterface;
     private readonly CombatHandler _combatHandler;
-    private readonly GameContext _c;
 
     public GameEngine(SeedHandler seedHandler, UserInterface userInterface, CombatHandler combatHandler)
     {
