@@ -11,7 +11,6 @@ using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Models.Units.Characters;
 using ConsoleRpgEntities.Models.Units.Monsters;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace ConsoleRpgEntities.Data;
 
