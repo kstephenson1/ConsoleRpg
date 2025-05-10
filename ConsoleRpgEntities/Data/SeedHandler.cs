@@ -551,7 +551,7 @@ public class SeedHandler
         return _rooms[random];
     }
 
-    private void DisplaySeedProgressBar()
+    private static void DisplaySeedProgressBar()
     {
         // Displays a progress bar while the database is being seeded. The progress bar is displayed using the
         // Spectre.Console library.
