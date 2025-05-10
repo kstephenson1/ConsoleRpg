@@ -71,7 +71,7 @@ public static class Startup
         services.AddTransient<UserInterface>();
     }
 
-    public static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder =>
+    private readonly static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder =>
     {
         builder
             .ClearProviders()
