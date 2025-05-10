@@ -28,10 +28,10 @@ public class GameContext : DbContext
     public GameContext() { }
     public GameContext(DbContextOptions<GameContext> options) : base(options) { }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configures the GameContext to be able to use the UnitType property as a discriminator for the Unit entity
-        builder.Entity<Unit>()
+        modelBuilder.Entity<Unit>()
             .HasDiscriminator(unit => unit.UnitType)
             .HasValue<Cleric>(nameof(Cleric))
             .HasValue<Fighter>(nameof(Fighter))
@@ -46,7 +46,7 @@ public class GameContext : DbContext
             .HasValue<EnemyMage>(nameof(EnemyMage));
 
         // Configures the GameContext to be able to use the ItemType property as a discriminator for the Item entity
-        builder.Entity<Item>()
+        modelBuilder.Entity<Item>()
             .HasDiscriminator(item => item.ItemType)
             .HasValue<GenericItem>(nameof(GenericItem))
 
@@ -63,7 +63,7 @@ public class GameContext : DbContext
             .HasValue<FeetArmorItem>(nameof(FeetArmorItem));
 
         // Configures the GameContext to be able to use the AbilityType property as a discriminator for the Ability entity
-        builder.Entity<Ability>()
+        modelBuilder.Entity<Ability>()
             .HasDiscriminator(ability => ability.AbilityType)
             .HasValue<FlyAbility>(nameof(FlyAbility))
             .HasValue<HealAbility>(nameof(HealAbility))
@@ -71,7 +71,7 @@ public class GameContext : DbContext
             .HasValue<TauntAbility>(nameof(TauntAbility));
 
         // Creates a many-to-many relationship between Unit and Item and maps it to the UnitItems table
-        builder.Entity<Unit>()
+        modelBuilder.Entity<Unit>()
         .HasMany(unit => unit.Abilities)
         .WithMany(ability => ability.Units)
         .UsingEntity(join => join.ToTable("UnitAbility"));
