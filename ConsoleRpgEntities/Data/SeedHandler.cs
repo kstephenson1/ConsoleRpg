@@ -175,7 +175,7 @@ public class SeedHandler
         LegArmorItem itemGreaves = new("Greaves", "A basic plate greaves", ArmorType.Legs, Rank.E, 30, 2, 0, 3, 1);
         FeetArmorItem itemSabatons = new("Sabatons", "A basic plate sabatons", ArmorType.Feet, Rank.E, 30, 2, 0, 3, 1);
 
-        _itemService.Add( new List<Item>() {
+        _itemService.Add(new List<Item>() {
             // Consumable Items
             potion, lockpick, book,
 
@@ -551,10 +551,10 @@ public class SeedHandler
         return _rooms[random];
     }
 
-    private static void DisplaySeedProgressBar()
-    {
+    private static void DisplaySeedProgressBar() =>
         // Displays a progress bar while the database is being seeded. The progress bar is displayed using the
         // Spectre.Console library.
+
         AnsiConsole.Progress()
         .AutoRefresh(true)
         .AutoClear(false)
@@ -600,25 +600,25 @@ public class SeedHandler
                 else if (!taskDungeon.IsFinished)
                 {
                     taskDungeon.Increment(progress);
-                    taskAbilities.Increment(progress/2);
-                    taskUnits.Increment(progress/4);
+                    taskAbilities.Increment(progress / 2);
+                    taskUnits.Increment(progress / 4);
                 }
                 else if (!taskAbilities.IsFinished)
                 {
                     taskAbilities.Increment(progress);
-                    taskUnits.Increment(progress/2);
-                    taskStats.Increment(progress/4);
+                    taskUnits.Increment(progress / 2);
+                    taskStats.Increment(progress / 4);
                 }
                 else if (!taskUnits.IsFinished)
                 {
                     taskUnits.Increment(progress);
-                    taskStats.Increment(progress/2);
-                    taskInventory.Increment(progress/4);
+                    taskStats.Increment(progress / 2);
+                    taskInventory.Increment(progress / 4);
                 }
                 else if (!taskStats.IsFinished)
                 {
                     taskStats.Increment(progress);
-                    taskInventory.Increment(progress/2);
+                    taskInventory.Increment(progress / 2);
                 }
                 else if (!taskInventory.IsFinished)
                 {
@@ -626,5 +626,4 @@ public class SeedHandler
                 }
             }
         });
-    }
 }
