@@ -11,9 +11,9 @@ public abstract class Ability : IDatabaseEntity
     public string Name { get; set; }
     public string Description { get; set; }
     public virtual List<Unit> Units { get; }
-    public Ability() { }
+    protected Ability() { }
 
-    public Ability(string name, string description)
+    protected Ability(string name, string description)
     {
         Name = name;
         Description = description;
