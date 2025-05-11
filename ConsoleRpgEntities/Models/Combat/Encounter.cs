@@ -281,7 +281,7 @@ public class Encounter
     /// <returns></returns>
     private int GetCrit()
     {
-        return (int)MathF.Max(Unit.GetEquippedWeapon()!.Crit + Unit.Stat.Dexterity * 2, 0);
+        return (int)(MathF.Max(Unit.GetEquippedWeapon()!.Crit + Unit.Stat.Dexterity * 2, 0) - GetTargetCritAvoid());
     }
 
     /// <summary>
@@ -290,9 +290,9 @@ public class Encounter
     /// If the critical hit avoid chance is less than 0, the critical hit avoid chance is set to 0.
     /// </summary>
     /// <returns></returns>
-    private int GetCritAvoid()
+    private int GetTargetCritAvoid()
     {
-        return (int)MathF.Max(Unit.Stat.Luck, 0);
+        return (int)MathF.Max(Target.Stat.Luck, 0);
     }
 
     /// <summary>
