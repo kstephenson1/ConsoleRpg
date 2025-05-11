@@ -14,13 +14,15 @@ public class AbilityCommand : ICommand
     private readonly Ability _ability;
 
     public AbilityCommand() { }
-    public AbilityCommand(IUnit unit, IUnit target, Ability ability)
+    public AbilityCommand(Ability ability, IUnit unit, IUnit target)
     {
+        _ability = ability;
+
         if (unit == null || target == null)
             return;
         _unit = unit;
+
         _target = target;
-        _ability = ability;
     }
     public void Execute()
     {

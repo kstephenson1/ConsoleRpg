@@ -6,6 +6,8 @@ using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Commands;
 using ConsoleRpgEntities.Models.Interfaces.InventoryBehaviors;
 using ConsoleRpgEntities.Models.Interfaces.UnitBehaviors;
+using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.Commands.AbilityCommands;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
@@ -54,22 +56,26 @@ public class CommandMenu : InteractiveSelectionMenu<ICommand>
     {
         _menuItems = new();
 
-        AddMenuItem("Move", "Moves the unit.", new MoveCommand(null!));
+        AddMenuItem("Move", "Moves the unit.", new MoveCommand());
+
+        if (unit is IAttack && InventoryHelper.GetEquippedWeapon((Unit)unit) != null)
+            AddMenuItem("Attack", "Attacks a target unit.", new AttackCommand());
+
+        if(unit.Abilities.Any())
+        {
+            AddMenuItem("Use Ability", "Use an ability that this character can use", new AbilityCommand());
+        }
 
         if (unit is IHaveInventory)
         {
             if (unit.UnitItems!.Count != 0)
-                AddMenuItem("Items", "Uses an item in this unit's inventory.", new UseItemCommand(null!, null!));
+                AddMenuItem("Items", "Uses an item in this unit's inventory.", new UseItemCommand());
             else
-                AddMenuItem("[dim]Items[/]", "[dim]Uses an item in this unit's inventory.[/]", new UseItemCommand(null!, null!));
+                AddMenuItem("[dim]Items[/]", "[dim]Uses an item in this unit's inventory.[/]", new UseItemCommand());
         }
 
-        if (unit is IAttack && InventoryHelper.GetEquippedWeapon((Unit)unit) != null)
-            AddMenuItem("Attack", "Attacks a target unit.", new AttackCommand(null!, null!));
-
-
         if (unit is ICastable)
-            AddMenuItem("Cast", "Casts a spell.", new CastCommand(null!, "null"));
+            AddMenuItem("Cast", "Casts a spell.", new CastCommand());
 
         AddMenuItem(exitMessage, "", null!);
     }

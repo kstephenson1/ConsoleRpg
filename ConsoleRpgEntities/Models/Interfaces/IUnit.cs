@@ -24,6 +24,7 @@ public interface IUnit : ITargetable, IAttack, IHaveInventory, IUseItems
     public List<Ability> Abilities { get; }
 
     void Move();
+    void UseAbility(Ability ability, IUnit target);
     string GetHealthBar();
     public IEquippableWeapon? GetEquippedWeapon();
     public IEquippableArmor? GetEquippedArmorInSlot(ArmorType armorType);

@@ -29,6 +29,7 @@ public static class Startup
         // Register services for dependency injection
         services.AddTransient<AbilitySelectionMenu>();
         services.AddTransient<AbilityService>();
+        services.AddTransient<AbilityTypeSelectionMenu>();
         services.AddTransient<CharacterUtilities>();
         services.AddTransient<CharacterUI>();
         services.AddTransient<CombatHandler>();
@@ -66,7 +67,7 @@ public static class Startup
         services.AddTransient<StatFactory>();
         services.AddTransient<StatSelectionMenu>();
         services.AddTransient<StatService>();
-        services.AddSingleton<UnitClassSelectionMenu>();
+        services.AddSingleton<ClassTypeSelectionMenu>();
         services.AddTransient<UnitItemService>();
         services.AddTransient<UnitService>();
         services.AddTransient<UserInterface>();

@@ -10,14 +10,14 @@ public class FlyAbility : Ability
     public FlyAbility() : base()
     {
         Name = "Fly";
-        Description = "Flies to a location within flight range.";
+        Description = "Flies to a target enemy within flight range.";
     }
 
     public override void Execute(Unit unit, Unit target)
     {
         if(CanUseAbility(unit))
         {
-            Console.WriteLine($"{unit.Name} flies.");
+            Console.WriteLine($"{unit.Name} flies to {target.Name}.");
         }
         else
         {

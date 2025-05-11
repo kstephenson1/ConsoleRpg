@@ -1,25 +1,30 @@
-﻿using System.Reflection;
+﻿using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.Commands.AbilityCommands;
+using ConsoleRpgEntities.Models.Interfaces;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
-public class AbilitySelectionMenu : InteractiveSelectionMenu<Type>
+public class AbilitySelectionMenu : InteractiveSelectionMenu<Ability>
 {
-    // AbilitySelectionMenu is used to select an ability from a list of abilities.  It's used for character creation.
+    // ItemCommandMenu is used to display a menu of commands that can be performed on an item.  It takes in a unit and an
+    // item, and displays a menu of commands that can be performed on the item, then returns the command that was
+    // selected or returns null if the user exits the menu.
 
-    public AbilitySelectionMenu()
+    public override void Display(string errorMessage)
     {
-
+        throw new ArgumentException("CommandMenu(unit, prompt) requires a unit.");
     }
 
-    public override Type Display(string prompt, string exitMessage)
+    public Ability Display(IUnit unit, string prompt, string exitMessage)
     {
-        Type selection = default!;
+        Ability selection = default!;
         bool exit = false;
         while (exit != true)
         {
             Console.Clear();
             Console.WriteLine(prompt);
-            Update(exitMessage);
+            Update(unit, exitMessage);
             BuildTable(exitMessage);
             Show();
             ConsoleKey key = ReturnValidKey();
@@ -30,20 +35,19 @@ public class AbilitySelectionMenu : InteractiveSelectionMenu<Type>
 
     public override void Update(string exitMessage)
     {
+        throw new ArgumentException("Update(item) requires an item.");
+    }
+
+    public void Update(IUnit unit, string exitMessage)
+    {
         _menuItems = new();
 
-        string characterNamespace = "ConsoleRpgEntities.Models.Abilities.UnitAbilities";
-        IEnumerable<Type> abilityTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
-                where t.IsClass && t.Namespace == characterNamespace
-                select t;
-
-        foreach (Type abilityType in abilityTypes)
+        foreach (Ability ability in unit.Abilities)
         {
-            
-            AddMenuItem($"{abilityType.Name}", $"", abilityType);
+            AddMenuItem(ability.Name, ability.Description, ability);
         }
 
-        AddMenuItem(exitMessage, $"", null!);
+        AddMenuItem(exitMessage, "", null!);
     }
 }
 

@@ -2,11 +2,11 @@
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
-public class UnitClassSelectionMenu : InteractiveSelectionMenu<Type>
+public class AbilityTypeSelectionMenu : InteractiveSelectionMenu<Type>
 {
-    // UnitClassSelectionMenu is used to select a unit class from a list of unit classes.  It's used for character creation.
+    // AbilityTypeSelectionMenu is used to select an ability from a list of abilities.  It's used for character creation.
 
-    public UnitClassSelectionMenu()
+    public AbilityTypeSelectionMenu()
     {
 
     }
@@ -32,14 +32,15 @@ public class UnitClassSelectionMenu : InteractiveSelectionMenu<Type>
     {
         _menuItems = new();
 
-        string characterNamespace = "ConsoleRpgEntities.Models.Units.Characters";
-        IEnumerable<Type> unitTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
+        string characterNamespace = "ConsoleRpgEntities.Models.Abilities.UnitAbilities";
+        IEnumerable<Type> abilityTypes = from t in Assembly.GetExecutingAssembly().GetTypes()
                 where t.IsClass && t.Namespace == characterNamespace
                 select t;
 
-        foreach (Type unitType in unitTypes)
+        foreach (Type abilityType in abilityTypes)
         {
-            AddMenuItem($"{unitType.Name}", $"", unitType);
+            
+            AddMenuItem($"{abilityType.Name}", $"", abilityType);
         }
 
         AddMenuItem(exitMessage, $"", null!);

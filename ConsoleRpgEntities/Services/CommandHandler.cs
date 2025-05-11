@@ -7,6 +7,8 @@ using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Commands;
 using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
 using ConsoleRpgEntities.Models.Interfaces.UnitBehaviors;
+using ConsoleRpgEntities.Models.Commands.AbilityCommands;
+using ConsoleRpgEntities.Models.Abilities;
 
 namespace ConsoleRpgEntities.Services;
 
@@ -93,6 +95,12 @@ public class CommandHandler
         {
             string spell = Input.GetString($"Enter name of spell being cast by {unit.Name}: ");
             ((ICastable)unit).Cast(spell);
+        }
+        else if (command.GetType() == typeof(AbilityCommand))
+        {
+            Ability ability = _userInterface.AbilitySelectionMenu.Display(unit, "Select ability to use", "[[Go Back]]");
+            IUnit target = _userInterface.EnemyUnitSelectionMenu.Display($"Select target for {ability.Name}.", "[[Go Back]]");
+            unit.UseAbility(ability, target);
         }
     }
 }

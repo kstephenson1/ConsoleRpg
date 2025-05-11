@@ -16,18 +16,18 @@ using ConsoleRpgEntities.Models.Abilities;
 
 public class CharacterUtilities
 {
-    private readonly AbilitySelectionMenu _abilitySelectionMenu;
+    private readonly AbilityTypeSelectionMenu _abilitySelectionMenu;
     private readonly CharacterUI _characterUI;
     private readonly LevelUpCharacterMenu _levelUpMenu;
     private readonly UnitService _unitService;
     private readonly StatFactory _statFactory;
     private readonly StatService _statService;
     private readonly RoomMenu _roomMenu;
-    private readonly UnitClassSelectionMenu _unitClassMenu;
-    private readonly PartyUnitSelectionMenu _unitSelectionMenu;
+    private readonly ClassTypeSelectionMenu _unitClassMenu;
+    private readonly PartyUnitSelectionMenu _partyUnitSelectionMenu;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(AbilitySelectionMenu abilitySelectionMenu, CharacterUI characterUI, UnitClassSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu unitSelectionMenu)
+    public CharacterUtilities(AbilityTypeSelectionMenu abilitySelectionMenu, CharacterUI characterUI, ClassTypeSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu partyUnitSelectionMenu)
     {
         _abilitySelectionMenu = abilitySelectionMenu;
         _characterUI = characterUI;
@@ -37,7 +37,7 @@ public class CharacterUtilities
         _statService = statService;
         _roomMenu = roomMenu;
         _unitClassMenu = unitClassMenu;
-        _unitSelectionMenu = unitSelectionMenu;
+        _partyUnitSelectionMenu = partyUnitSelectionMenu;
     }
     public void NewCharacter() // Creates a new character.  Asks for name, class, level, hitpoints, and items.
     {
@@ -138,7 +138,7 @@ public class CharacterUtilities
 
     public void FindCharacterByList() // Asks the user for a name and displays a character based on input.
     {
-        IUnit unit = _unitSelectionMenu.Display("Select unit to view.", "[[Cancel Character Search]]");
+        IUnit unit = _partyUnitSelectionMenu.Display("Select unit to view.", "[[Cancel Character Search]]");
 
         Console.Clear();
 
@@ -160,7 +160,7 @@ public class CharacterUtilities
 
     public Unit ReturnCharacterByList(string prompt) // Asks the user for a name and displays a character based on input.
     {
-        IUnit unit = _unitSelectionMenu.Display(prompt, "[[Cancel Character Search]]");
+        IUnit unit = _partyUnitSelectionMenu.Display(prompt, "[[Cancel Character Search]]");
 
         return unit as Unit;
     }
@@ -214,7 +214,7 @@ public class CharacterUtilities
 
     public void LevelUpByList() //Asks the user for a character to level up, then displays that character.
     {
-        IUnit unit = _unitSelectionMenu.Display("Select unit to view.", "[[Cancel Level Up/Down]]");
+        IUnit unit = _partyUnitSelectionMenu.Display("Select unit to view.", "[[Cancel Level Up/Down]]");
         Console.Clear();
 
         if (unit != null)
@@ -270,7 +270,7 @@ public class CharacterUtilities
     {
         Type abilityType = _abilitySelectionMenu.Display("Select an ability to add.", "[[Cancel Ability Selection]]");
         if (abilityType == null) return;
-        IUnit unit = _unitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
+        IUnit unit = _partyUnitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
         if (unit == null) return;
 
         Ability ability = (Ability)Activator.CreateInstance(abilityType);
@@ -282,6 +282,24 @@ public class CharacterUtilities
             _unitService.Update(character);
             _unitService.Commit();
             AnsiConsole.MarkupLine($"Added ability [#00ffff]{ability.Name}[/] to [#00ffff]{unit.Name}[/]");
+        }
+    }
+
+    public void DisplayAbilitiesForUnit()
+    {
+        IUnit unit = _partyUnitSelectionMenu.Display("Select a unit to view it's abilities", "[[Go Back]]");
+        if (unit == null) return;
+        if (unit.Abilities.Any())
+        {
+            Console.WriteLine($"Abilities usable by {unit.Name}:");
+            foreach (var ability in unit.Abilities)
+            {
+                Console.WriteLine($"{ability.Name} | {ability.Description}");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"{unit.Name} has no abilities.");
         }
     }
 }

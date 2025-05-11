@@ -12,6 +12,7 @@ public class UseItemCommand : ICommand
 
     private readonly IUnit _unit;
     private readonly IItem _item;
+    public UseItemCommand() { }
     public UseItemCommand(IUnit unit, IItem item)
     {
         _unit = unit;

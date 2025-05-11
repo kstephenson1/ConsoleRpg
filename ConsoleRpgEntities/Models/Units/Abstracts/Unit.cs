@@ -172,9 +172,9 @@ public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IDatab
         Invoker.ExecuteCommand(UseItemCommand);
     }
 
-    public void UseAbility(IUnit target, Ability ability)
+    public void UseAbility(Ability ability, IUnit target)
     {
-        AbilityCommand = new(this, target, ability);
+        AbilityCommand = new(ability, this, target);
         Invoker.ExecuteCommand(AbilityCommand);
     }
 
