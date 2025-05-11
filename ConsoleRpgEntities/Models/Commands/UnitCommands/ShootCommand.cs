@@ -31,7 +31,7 @@ public class ShootCommand : ICommand
             {
                 if (_encounter.Unit.GetEquippedWeapon() is PhysicalWeaponItem)
                 {
-                    Console.WriteLine($"{_unit.Name} attacks {_target.Name} with {_encounter.Unit.GetEquippedWeapon().Name}\n");
+                    Console.WriteLine($"{_unit.Name} attacks {_target.Name} with {_encounter.Unit.GetEquippedWeapon()!.Name}\n");
                     Console.WriteLine($"Hit Chance: {_encounter.GetDisplayedHit()}");
                     Console.WriteLine($"Critical Strike Chance: {_encounter.GetDisplayedCrit()}");
                     Console.WriteLine($"{_unit.Name}'s Damage: {_encounter.GetAttack()}");
@@ -39,7 +39,7 @@ public class ShootCommand : ICommand
                 }
                 else if (_encounter.Unit.GetEquippedWeapon() is MagicWeaponItem)
                 {
-                    Console.WriteLine($"{_unit.Name} casts {_encounter.Unit.GetEquippedWeapon().Name} at {_target.Name}\n");
+                    Console.WriteLine($"{_unit.Name} casts {_encounter.Unit.GetEquippedWeapon()!.Name} at {_target.Name}\n");
                     Console.WriteLine($"Hit Chance: {_encounter.GetDisplayedHit()}");
                     Console.WriteLine($"Critical Strike Chance: {_encounter.GetDisplayedCrit()}");
                     Console.WriteLine($"{_unit.Name}'s Magic Damage: {_encounter.GetMagicAttack()}");
