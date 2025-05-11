@@ -52,6 +52,7 @@ public class MainMenu : InteractiveMenu
         AddMenuItem("Edit Character Level", "Level up/down a selected character.", _characterUtilities.LevelUp);
         AddMenuItem("Edit Character Level by List", "Level up/down a selected character.", _characterUtilities.LevelUpByList);
         AddMenuItem("Inventory Management", "Shows options for inventory management", _mainMenuInventory.Display);
+        AddMenuItem("Add Ability to Character", "Adds an ability to a character", _characterUtilities.AddAbilityToCharacter);
         AddMenuItem(exitMessage, "", DoNothing);
         BuildTable(exitMessage);
     }

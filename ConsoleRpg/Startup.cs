@@ -27,6 +27,7 @@ public static class Startup
         IConfiguration configuration = ConfigurationHelper.GetConfiguration();
 
         // Register services for dependency injection
+        services.AddTransient<AbilitySelectionMenu>();
         services.AddTransient<AbilityService>();
         services.AddTransient<CharacterUtilities>();
         services.AddTransient<CharacterUI>();

@@ -12,9 +12,11 @@ using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using Spectre.Console;
 using ConsoleRpgEntities.Services.Repositories;
 using ConsoleRpgEntities.Models.Items;
+using ConsoleRpgEntities.Models.Abilities;
 
 public class CharacterUtilities
 {
+    private readonly AbilitySelectionMenu _abilitySelectionMenu;
     private readonly CharacterUI _characterUI;
     private readonly LevelUpCharacterMenu _levelUpMenu;
     private readonly UnitService _unitService;
@@ -25,8 +27,9 @@ public class CharacterUtilities
     private readonly PartyUnitSelectionMenu _unitSelectionMenu;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(CharacterUI characterUI, UnitClassSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu unitSelectionMenu)
+    public CharacterUtilities(AbilitySelectionMenu abilitySelectionMenu, CharacterUI characterUI, UnitClassSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu unitSelectionMenu)
     {
+        _abilitySelectionMenu = abilitySelectionMenu;
         _characterUI = characterUI;
         _levelUpMenu = levelUpMenu;
         _unitService = unitService;
@@ -265,12 +268,12 @@ public class CharacterUtilities
 
     public void AddAbilityToCharacter() // Adds an ability to a character.
     {
-        Type abilityType = _unitClassMenu.Display("Select an ability to add to a character.", "[[Cancel Ability Selection]]");
+        Type abilityType = _abilitySelectionMenu.Display("Select an ability to add.", "[[Cancel Ability Selection]]");
         if (abilityType == null) return;
         IUnit unit = _unitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
         if (unit == null) return;
 
-        dynamic ability = Activator.CreateInstance(abilityType);
+        Ability ability = (Ability)Activator.CreateInstance(abilityType);
 
         if (unit is Unit)
         {
@@ -278,6 +281,7 @@ public class CharacterUtilities
             character.Abilities.Add(ability);
             _unitService.Update(character);
             _unitService.Commit();
+            AnsiConsole.MarkupLine($"Added ability [#00ffff]{ability.Name}[/] to [#00ffff]{unit.Name}[/]");
         }
     }
 }
