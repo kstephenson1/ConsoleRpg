@@ -39,14 +39,14 @@ public class AttackCommand : ICommand
                     Console.WriteLine($"Hit Chance: {_encounter.GetDisplayedHit()}");
                     Console.WriteLine($"Critical Strike Chance: {_encounter.GetDisplayedCrit()}");
                     Console.WriteLine($"{_unit.Name}'s Damage: {_encounter.GetAttack()}");
-                    Console.WriteLine($"{_target.Name}'s Defense: {_encounter.GetPhysicalResiliance(_target)}");
+                    Console.WriteLine($"{_target.Name}'s Defense: {_encounter.GetTargetPhysicalResiliance()}");
                 } else if (_encounter.Unit.GetEquippedWeapon() is MagicWeaponItem)
                 {
                     Console.WriteLine($"{_unit.Name} casts {_encounter.Unit.GetEquippedWeapon().Name} at {_target.Name}\n");
                     Console.WriteLine($"Hit Chance: {_encounter.GetDisplayedHit()}");
                     Console.WriteLine($"Critical Strike Chance: {_encounter.GetDisplayedCrit()}");
                     Console.WriteLine($"{_unit.Name}'s Magic Damage: {_encounter.GetMagicAttack()}");
-                    Console.WriteLine($"{_target.Name}'s Resistance: {_encounter.GetMagicResiliance(_target)}\n");
+                    Console.WriteLine($"{_target.Name}'s Resistance: {_encounter.GetTargetMagicResiliance()}\n");
                 }
 
                 Console.WriteLine($"{_unit.Name} rolls a : {_encounter.Roll}");

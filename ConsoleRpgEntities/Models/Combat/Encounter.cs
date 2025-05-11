@@ -17,10 +17,9 @@ public class Encounter
     // Dictionary to hold the weapon triangle advantage values for each weapon type combination
     private readonly Dictionary<Tuple<WeaponType, WeaponType>, int> dict = new();
 
-    public int Roll;
+    public int Roll {  get; private set; }
     public IUnit Unit { get; set; }
     public IUnit Target { get; set; }
-    public Stat Stat { get; set; }
     public int Damage => RollDamage();
 
     public Encounter(IUnit unit, IUnit target)
@@ -179,10 +178,10 @@ public class Encounter
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    public int GetPhysicalResiliance(IUnit unit)
+    public int GetTargetPhysicalResiliance()
     {
-        int defense = unit.Stat.Defense;
-        List<IEquippableArmor> equippedArmor = InventoryHelper.GetEquippedArmor(unit);
+        int defense = Target.Stat.Defense;
+        List<IEquippableArmor> equippedArmor = InventoryHelper.GetEquippedArmor(Target);
         foreach (IEquippableArmor armor in equippedArmor)
         {
             defense += armor.Defense;
@@ -196,10 +195,10 @@ public class Encounter
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    public int GetMagicResiliance(IUnit unit)
+    public int GetTargetMagicResiliance()
     {
-        int resiliance = unit.Stat.Resistance;
-        List<IEquippableArmor> equippedArmor = InventoryHelper.GetEquippedArmor(unit);
+        int resiliance = Target.Stat.Resistance;
+        List<IEquippableArmor> equippedArmor = InventoryHelper.GetEquippedArmor(Target);
         foreach(IEquippableArmor armor in equippedArmor)
         {
             resiliance += armor.Resistance;
@@ -214,7 +213,7 @@ public class Encounter
     /// <returns></returns>
     private int GetDamage()
     {
-        return GetAttack() - GetPhysicalResiliance(Target);
+        return GetAttack() - GetTargetPhysicalResiliance();
     }
 
     /// <summary>
@@ -224,7 +223,7 @@ public class Encounter
     /// <returns></returns>
     private int GetMagicDamage()
     {
-        return GetMagicAttack() - GetMagicResiliance(Target);
+        return GetMagicAttack() - GetTargetMagicResiliance();
     }
 
     /// <summary>
