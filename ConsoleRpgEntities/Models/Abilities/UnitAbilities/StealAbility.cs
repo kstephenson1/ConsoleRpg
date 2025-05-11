@@ -7,7 +7,7 @@ public class StealAbility : Ability
     // StealAbility represents the ability to steal an item from an enemy.
     public override string AbilityType { get; set; } = "StealAbility";
 
-    public StealAbility()
+    public StealAbility() : base()
     {
         Name = "Steal";
         Description = "Steals an item from an enemy.";

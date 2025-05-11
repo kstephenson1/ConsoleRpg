@@ -8,7 +8,7 @@ public class HealAbility : Ability
     // HealAbility represents the ability to heal.
     public override string AbilityType { get; set; } = "HealAbility";
 
-    public HealAbility()
+    public HealAbility() : base()
     {
         Name = "Heal";
         Description = "Heals a friendly unit.";

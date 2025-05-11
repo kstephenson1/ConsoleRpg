@@ -7,7 +7,7 @@ public class FlyAbility : Ability
     // FlyAbility represents the ability to fly.
     public override string AbilityType { get; set; } = "FlyAbility";
 
-    public FlyAbility()
+    public FlyAbility() : base()
     {
         Name = "Fly";
         Description = "Flies to a location within flight range.";
