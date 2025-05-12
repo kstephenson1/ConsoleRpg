@@ -12,20 +12,6 @@ public class RoomFactory
         _roomService = roomService;
     }
 
-    public void CreateRoomAndAddToContext()
-    {
-        Console.Clear();
-        Console.WriteLine(
-            "-------------------" +
-            "    CREATE ROOM    " +
-            "-------------------\n");
-        string name = Input.GetString("Enter Name for new room: ");
-        string desc = Input.GetString($"Enter Description for room \"{name}\": ");
-        Room room = new(name, desc);
-        _roomService.Add(room);
-        _roomService.Commit();
-        Console.WriteLine($"Room \"{name}\" with description \"{desc}\" has been added to the game.");
-    }
     public Room CreateRoom(string roomType)
     {
         return roomType switch

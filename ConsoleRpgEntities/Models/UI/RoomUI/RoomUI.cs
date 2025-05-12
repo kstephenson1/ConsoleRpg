@@ -1,8 +1,7 @@
 ﻿using Spectre.Console;
-using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Services.Repositories;
+using ConsoleRpgEntities.Models.Units.Abstracts;
 
 namespace ConsoleRpgEntities.Models.UI.Character;
 
@@ -16,22 +15,42 @@ public class RoomUI
         _roomService = roomService;
     }
 
-    public void DisplayRooms() // Displays the rooms and their info.
+    public void DisplayRooms(List<Room> rooms) // Displays the rooms and their info.
     {
-        List<Room> rooms = _roomService.GetAll().ToList();
+        // Creates a display table that contains all the other tables to create a nice little display.
+        foreach (Room room in rooms)
+        {
+            DisplayRoom(room);
+        }
+    }
+
+    public void DisplayRoom(Room room) // Displays the rooms and their info.
+    {
 
         // Creates a display table that contains all the other tables to create a nice little display.
         Table displayTable = new Table();
         displayTable
-            .AddColumn(new TableColumn("Room Name"))
-            .AddColumn(new TableColumn("Room Description"));
+            .AddColumn(new TableColumn("Room Name").Width(30))
+            .AddColumn(new TableColumn("Room Description").Width(100));
 
-        foreach (IRoom room in rooms)
+        displayTable.AddRow(room.Name, room.Description);
+        displayTable.AddRow("", "");
+        if (room.Units.Any())
         {
-            displayTable.AddRow(room.Name, room.Description);
+            displayTable.AddRow("", "Units in room:");
+            foreach (Unit unit in room.Units)
+            {
+                displayTable.AddRow(new Text(""), new Text(unit.Name));
+            }
+        }
+        else
+        {
+            displayTable.AddRow("", "No units in this room");
         }
 
-        // Displays the table to the user.
-        AnsiConsole.Write(displayTable);
+
+
+            // Displays the table to the user.
+            AnsiConsole.Write(displayTable);
     }
 }

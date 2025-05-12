@@ -56,13 +56,17 @@ public static class Startup
         services.AddTransient<ItemService>();
         services.AddTransient<LevelUpCharacterMenu>();
         services.AddTransient<MainMenu>();
+        services.AddTransient<MainMenuAbilities>();
+        services.AddTransient<MainMenuCharacters>();
         services.AddTransient<MainMenuInventory>();
+        services.AddTransient<MainMenuRooms>();
         services.AddTransient<PartyUnitSelectionMenu>();
         services.AddTransient<RoomFactory>();
         services.AddTransient<RoomMenu>();
         services.AddTransient<RoomNavigationMenu>();
         services.AddTransient<RoomService>();
         services.AddTransient<RoomUI>();
+        services.AddTransient<RoomUtilities>();
         services.AddTransient<SeedHandler>();
         services.AddTransient<StatFactory>();
         services.AddTransient<StatSelectionMenu>();
