@@ -9,14 +9,17 @@ using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
 using ConsoleRpgEntities.Models.Interfaces.UnitBehaviors;
 using ConsoleRpgEntities.Models.Commands.AbilityCommands;
 using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Services;
 
 public class CommandHandler
 {
+    private readonly UnitItemService _unitItemService ;
     private UserInterface _userInterface;
-    public CommandHandler(UserInterface userInterface)
+    public CommandHandler(UnitItemService unitItemService, UserInterface userInterface)
     {
+        _unitItemService = unitItemService;
         _userInterface = userInterface;
     }
     public void HandleCommand(ICommand command, IUnit unit)
@@ -58,7 +61,8 @@ public class CommandHandler
                                 break;
                             case TradeItemCommand:
                                 IUnit tradeTarget = _userInterface.PartyUnitSelectionMenu.Display($"Select unit to trade {item} to.", "[[Go Back]]");
-                                unit.TradeItem(item, tradeTarget);
+                                unit.TradeItem(item, tradeTarget, _unitItemService);
+                                _unitItemService.Commit();
                                 break;
                             case DropItemCommand:
                                 unit.DropItem(item);

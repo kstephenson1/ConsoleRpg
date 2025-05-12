@@ -3,11 +3,18 @@ using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
 using ConsoleRpgEntities.Models.Items;
 using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Services.Repositories;
+using System.Security.Cryptography;
 
 namespace ConsoleRpgEntities;
 
-public static class InventoryHelper
+public class InventoryHelper
 {
+    private readonly ItemService _itemService;
+    public InventoryHelper(ItemService itemService)
+    {
+        _itemService = itemService;
+    }
     public static IEquippableWeapon? GetEquippedWeapon(IUnit unit)
     {
         if (unit.UnitItems == null) return null;
@@ -64,7 +71,8 @@ public static class InventoryHelper
 
     public static bool IsInventoryFull(IUnit unit)
     {
-        throw new NotImplementedException();
+        if (unit.UnitItems.Count >= 6) return true;
+        return false;
     }
 
     public static bool IsItemEquipped(IUnit unit, IEquippableItem equippableItem)
@@ -150,7 +158,7 @@ public static class InventoryHelper
         return GetCurrentCarryWeight(unit) + GetItemWeight(item) <= GetMaxCarryWeight(unit);
     }
 
-    public static void AddItemToInventory(Unit unit, Item item)
+    public static void AddItemToInventory(IUnit unit, IItem item)
     {
         // Adds an item to the unit's inventory
         AddItemToInventory(unit, item, EquipmentSlot.None);
@@ -187,6 +195,17 @@ public static class InventoryHelper
                 Slot = slot,
                 Quantity = 1
             });
+        }
+    }
+
+    public static void RemoveItemFromInventory(IUnit unit, IItem item)
+    {
+        foreach(var unitItem in unit.UnitItems)
+        {
+            if (unitItem.Item == item)
+            {
+                unit.UnitItems.Remove(unitItem);
+            }
         }
     }
 }

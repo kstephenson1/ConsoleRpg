@@ -2,6 +2,7 @@
 using ConsoleRpgEntities.Models.Interfaces.Commands;
 using ConsoleRpgEntities.Models.Interfaces.InventoryBehaviors;
 using ConsoleRpgEntities.Models.Items;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Commands.ItemCommands;
 
@@ -15,11 +16,13 @@ public class TradeItemCommand : ICommand
     private readonly IUnit _unit;
     private readonly IItem _item;
     private readonly IUnit _target;
-    public TradeItemCommand(IUnit unit, IItem item, IUnit target)
+    private readonly UnitItemService _unitItemService;
+    public TradeItemCommand(IUnit unit, IItem item, IUnit target, UnitItemService unitItemService)
     {
         _unit = unit;
         _item = item;
         _target = target;
+        _unitItemService = unitItemService;
     }
     public void Execute()
     {
@@ -32,7 +35,10 @@ public class TradeItemCommand : ICommand
                     if (unitItem.Item == _item)
                     {
                         _unit.UnitItems.Remove(unitItem);
-                        _target.UnitItems.Add(unitItem);
+                        _unitItemService.Delete(unitItem);
+                        InventoryHelper.AddItemToInventory(_target, _item);
+                        _target.UnitItems.Add(new());
+                        // TODO:
                         break;
                     }
                 }
