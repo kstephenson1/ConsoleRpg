@@ -43,7 +43,7 @@ public class ItemCommandMenu : InteractiveSelectionMenu<ICommand>
         _menuItems = new();
 
         AddMenuItem($"Drop Item", $"Get rid of the item forever.", new DropItemCommand(null!, null!));
-        AddMenuItem($"Trade Item", $"Gives this item to someone else.", new TradeItemCommand(null!, null!, null!));
+        AddMenuItem($"Trade Item", $"Gives this item to someone else.", new TradeItemCommand(null!, null!, null!, null!));
 
         if (item is IConsumableItem consumableItem)
         {

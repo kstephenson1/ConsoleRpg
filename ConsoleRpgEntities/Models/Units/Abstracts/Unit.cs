@@ -56,12 +56,11 @@ public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IDatab
         
     }
 
-    public Unit(string name, string characterClass, int level, List<Item> items, Stat stats)
+    public Unit(string name, string characterClass, int level, Stat stats)
     {
         Name = name;
         Class = characterClass;
         Level = level;
-        //Items = items;
         Stat = stats;
     }
 

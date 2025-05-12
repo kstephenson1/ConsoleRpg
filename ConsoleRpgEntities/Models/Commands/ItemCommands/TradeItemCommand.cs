@@ -36,9 +36,8 @@ public class TradeItemCommand : ICommand
                     {
                         _unit.UnitItems.Remove(unitItem);
                         _unitItemService.Delete(unitItem);
-                        InventoryHelper.AddItemToInventory(_target, _item);
-                        _target.UnitItems.Add(new());
-                        // TODO:
+                        InventoryHelper.AddItemToInventory(_target, _item, DataTypes.EquipmentSlot.None);
+                        _unitItemService.Commit();
                         break;
                     }
                 }
