@@ -179,7 +179,4 @@ public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IDatab
 
     public IEquippableWeapon? GetEquippedWeapon() => InventoryHelper.GetEquippedWeapon(this);
     public IEquippableArmor? GetEquippedArmorInSlot(ArmorType armorType) => InventoryHelper.GetEquippedArmorInSlot(this, armorType);
-    public int GetMaxCarryWeight() => Stat.GetMaxCarryWeight();
-    public int GetCurrentCarryWeight() => InventoryHelper.GetCurrentCarryWeight(this);
-
 }

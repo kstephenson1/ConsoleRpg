@@ -13,15 +13,12 @@ public class ItemPotion : ConsumableItem, IConsumableItem
     {
         Name = "Potion";
         Description = "Use to restore 10 hp.";
-        Weight = 1;
-        MaxUses = 3;
-        UsesLeft = MaxUses;
+        MaxDurability = 3;
     }
 
     public ItemPotion(string name, string desc) : base(name, desc)
     {
-        MaxUses = 3;
-        UsesLeft = MaxUses;
+        MaxDurability = 3;
     }
 
     public void UseItem(IUnit unit)
@@ -37,25 +34,15 @@ public class ItemPotion : ConsumableItem, IConsumableItem
             int postItemHP = unit.Stat.HitPoints;
             int healedHP = postItemHP - preItemHP;
             Console.WriteLine($"{unit.Name} used {Name} and gained {healedHP} hit points");
-            UsesLeft--;
 
-            if (UsesLeft == 0)
+            UnitItem unitItem = unit.UnitItems.Where(ui => ui.Item == this).FirstOrDefault()!;
+            unitItem.Durability--;
+
+            if (unitItem.Durability == 0)
             {
                 Console.WriteLine($"{unit.Name} used the last {Name} and it is now gone.");
-                foreach (UnitItem unitItem in unit.UnitItems)
-                {
-                    if (unitItem.Item == this)
-                    {
-                        unit.UnitItems.Remove(unitItem);
-                        break;
-                    }
-                }
+                unit.UnitItems.Remove(unitItem);
             }
         }
-    }
-
-    public override string ToString()
-    {
-        return $"{Name} ({UsesLeft}/{MaxUses})";
     }
 }

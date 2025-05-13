@@ -44,7 +44,7 @@ public class InventoryMenu : InteractiveSelectionMenu<IItem>
         {
             if (unitItem.Item is IConsumableItem consumableItem)
             {
-                AddMenuItem($"{consumableItem.Name}", $"[[{consumableItem.UsesLeft}/{consumableItem.MaxUses}]] {consumableItem.Description}", unitItem.Item);
+                AddMenuItem($"{consumableItem.Name}", $"[[{unitItem.Durability}/{consumableItem.MaxDurability}]] {consumableItem.Description}", unitItem.Item);
             }
             else if (unitItem.Item is IEquippableItem equippableItem)
             {

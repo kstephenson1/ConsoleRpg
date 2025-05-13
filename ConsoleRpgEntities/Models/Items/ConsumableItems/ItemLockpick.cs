@@ -14,37 +14,25 @@ public class ItemLockpick : ConsumableItem, IConsumableItem
     {
         Name = "Lockpick";
         Description = "Use to unlock a nearby door or chest.";
-        Weight = 1;
-        MaxUses = 5;
-        UsesLeft = MaxUses;
+        MaxDurability = 5;
     }
 
     public ItemLockpick(string name, string desc) : base(name, desc)
     {
-        MaxUses = 5;
-        UsesLeft = MaxUses;
+        MaxDurability = 5;
     }
 
     public void UseItem(IUnit unit)
     {
-        Console.WriteLine($"{unit!.Name} unlocked something!");
-        UsesLeft--;
+        Console.WriteLine($"{unit.Name} unlocked something nearby.");
+        UnitItem unitItem = unit.UnitItems.Where(ui => ui.Item == this).FirstOrDefault()!;
 
-        if (UsesLeft == 0)
+        unitItem.Durability--;
+
+        if (unitItem.Durability == 0)
         {
-            Console.WriteLine($"The lockpick broke!");
-            foreach (UnitItem unitItem in unit.UnitItems)
-            {
-                if (unitItem.Item == this)
-                {
-                    unit.UnitItems.Remove(unitItem);
-                    break;
-                }
-            }
+            Console.WriteLine($"The lockpick breaks.");
+            unit.UnitItems.Remove(unitItem);
         }
-    }
-    public override string ToString()
-    {
-        return $"{Name} ({UsesLeft}/{MaxUses})";
     }
 }

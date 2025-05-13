@@ -1,4 +1,6 @@
 ﻿using ConsoleRpgEntities.DataTypes;
+using ConsoleRpgEntities.Models.Items.ConsumableItems;
+using ConsoleRpgEntities.Models.Items.EquippableItems;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -22,5 +24,15 @@ public class UnitItem : IDatabaseEntity
     public int ItemId { get; set; }
     public virtual Item Item { get; set; }
     public virtual EquipmentSlot Slot { get; set; } = EquipmentSlot.None;
-    public virtual int Quantity { get; set; }
+    public virtual int Durability { get; set; }
+
+    public override string ToString()
+    {
+        return Item switch
+        {
+            EquippableItem => $"[[{Durability}/{Item.MaxDurability}]] {Item.Name}",
+            ConsumableItem => $"[[{Durability}]] {Item.Name}",
+            _ => $"{Item.Name}"
+        };
+    }
 }

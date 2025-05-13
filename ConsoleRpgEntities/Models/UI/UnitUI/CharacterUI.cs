@@ -76,7 +76,7 @@ public class CharacterUI
             .AddRow(new Text($"Hit Points:").Centered())
                 .AddRow(new Text($"{stat.HitPoints}/{stat.MaxHitPoints}").Centered());
 
-        //Creates a table that just says "Inventory:" This may be redesigned later.
+        //Creates a table with the unit's stats.
         Grid invHeader = new Grid().Width(30).AddColumns(3);
         invHeader
             .AddRow(
@@ -97,30 +97,34 @@ public class CharacterUI
         Grid invTable = new Grid();
         invTable.AddColumn();
 
-        List<IEquippableItem> equippedInventory = new();
+        List<UnitItem> equippedInventory = new();
 
-        IEquippableWeapon? weapon = unit.GetEquippedWeapon();
+        //IEquippableWeapon? weapon = unit.GetEquippedWeapon();
+        UnitItem weapon = unit.UnitItems.Where(ui => ui.Unit == unit && ui.Slot == EquipmentSlot.Weapon).FirstOrDefault()!;
         if (weapon != null)
         {
             equippedInventory.Add(weapon);
         }
 
-        foreach (ArmorType armorType in Enum.GetValues(typeof(ArmorType)))
+        List<UnitItem> equippedArmor = unit.UnitItems.Where(
+            ui => ui.Unit == unit &&
+            ui.Slot == EquipmentSlot.Head ||
+            ui.Slot == EquipmentSlot.Chest ||
+            ui.Slot == EquipmentSlot.Legs ||
+            ui.Slot == EquipmentSlot.Feet).ToList()!;
+
+        foreach (UnitItem armor in equippedArmor)
         {
-            IEquippableArmor? armor = unit.GetEquippedArmorInSlot(armorType);
-            if (armor != null)
-            {
-                equippedInventory.Add(armor);
-            }
+            equippedInventory.Add(armor);
         }
 
         if (equippedInventory.Any())
         {
             invTable.AddRow("Equipped Items: ");
 
-            foreach (IEquippableItem item in equippedInventory)
+            foreach (UnitItem unitItem in equippedInventory)
             {
-                invTable.AddRow($"{item.ToString()}");
+                invTable.AddRow($"{unitItem.ToString()}");
             }
         }
         else
@@ -130,12 +134,13 @@ public class CharacterUI
 
             invTable.AddRow("\nInventory: ");
 
-        List<Item> unequippedInventory = InventoryHelper.GetUnequippedItemsInInventory(unit);
+        //List<Item> unequippedInventory = InventoryHelper.GetUnequippedItemsInInventory(unit);
+        List<UnitItem> unequippedInventory = unit.UnitItems.Where( ui => ui.Unit == unit && ui.Slot == EquipmentSlot.None).ToList()!;
         if (unequippedInventory.Count() != 0)
         {
-            foreach (IItem item in unequippedInventory!)
+            foreach (UnitItem unitItem in unequippedInventory!)
             {
-                invTable.AddRow(" - " + item.ToString());
+                invTable.AddRow(" - " + unitItem.ToString());
             }
         }
         else

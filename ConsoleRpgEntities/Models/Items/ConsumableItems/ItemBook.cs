@@ -10,29 +10,29 @@ public class ItemBook : ConsumableItem, IConsumableItem
     // usable. It also has a name and description.
 
     public override string ItemType { get; set; } = "ItemBook";
-    public override int MaxUses { get; set ; } = 10;
     public ItemBook()
     {
         Name = "Book";
         Description = "Use to read the book.";
-        Weight = 1;
-        MaxUses = 10;
-        UsesLeft = MaxUses;
+        MaxDurability = 10;
     }
 
     public ItemBook(string name, string desc) : base(name, desc)
     {
-        MaxUses = 10;
-        UsesLeft = MaxUses;
+        MaxDurability = 10;
     }
 
     public void UseItem(IUnit unit)
     {
         Console.WriteLine($"You read the book. Isn't there a battle going on right now!?");
-    }
+        UnitItem unitItem = unit.UnitItems.Where(ui => ui.Item == this).FirstOrDefault()!;
 
-    public override string ToString()
-    {
-        return $"{Name} ({UsesLeft}/{MaxUses})";
+        unitItem.Durability--;
+
+        if (unitItem.Durability == 0)
+        {
+            Console.WriteLine($"{unit.Name} reads the {Name} and it falls apart in your hands.");
+            unit.UnitItems.Remove(unitItem);
+        }
     }
 }

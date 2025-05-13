@@ -14,7 +14,7 @@ public abstract class Item : IItem, IDatabaseEntity
     public virtual List<UnitItem> UnitItems { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int Weight { get; set; }
+    public int MaxDurability { get; set; }
 
     public Item() { }
 
@@ -22,10 +22,5 @@ public abstract class Item : IItem, IDatabaseEntity
     {
         Name = name;
         Description = desc;
-    }
-
-    public override string ToString()
-    {
-        return Name;
     }
 }

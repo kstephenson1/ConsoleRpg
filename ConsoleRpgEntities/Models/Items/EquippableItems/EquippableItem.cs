@@ -9,8 +9,8 @@ public abstract class EquippableItem : Item, IEquippableItem
     // EquippableItem is a class that holds equippable item information.
 
     public Rank RequiredRank { get; set; }
-    public int MaxDurability { get; set; }
     public int Durability { get; set; }
+    public int Weight { get; set; }
     public int ExpModifier { get; set; }
 
     protected EquippableItem() { }
@@ -24,11 +24,6 @@ public abstract class EquippableItem : Item, IEquippableItem
         Weight = weight;
         Durability = maxDurability;
         ExpModifier = expModifier;
-    }
-
-    public override string ToString()
-    {
-        return $"[[{Durability}/{MaxDurability}]] {Name}";
     }
 
     public void TakeDurabilityDamage(int durabilityDamage)

@@ -129,73 +129,37 @@ public class InventoryHelper
         return items;
     }
 
-    public static int GetItemWeight(IItem item)
-    {
-        return item.Weight;
-    }
-
-    public static int GetItemWeight(UnitItem unitItem)
-    {
-        return GetItemWeight(unitItem.Item);
-    }
-
-    public static int GetCurrentCarryWeight(IUnit unit)
-    {
-        int currentCarryWeight = 0;
-        foreach (UnitItem unitItem in unit.UnitItems)
-        {
-            currentCarryWeight += GetItemWeight(unitItem);
-        }
-        return currentCarryWeight;
-    }
-    public static int GetMaxCarryWeight(IUnit unit)
-    {
-        return unit.Stat.GetMaxCarryWeight();
-    }
-
     public static bool CanCarryItem(IUnit unit, IItem item)
     {
-        return GetCurrentCarryWeight(unit) + GetItemWeight(item) <= GetMaxCarryWeight(unit);
+        return unit.UnitItems.Count < 6;
     }
 
     public static void AddItemToInventory(IUnit unit, IItem item)
     {
-        // Adds an item to the unit's inventory
+        // Adds an item to the unit's inventory with max durability.
         AddItemToInventory(unit, item, EquipmentSlot.None);
     }
 
     public static void AddItemToInventory(IUnit unit, IItem item, EquipmentSlot slot)
     {
+        // Adds an item to the unit's inventory in a specified slot with max durability.
+        AddItemToInventory(unit, item, slot, item.MaxDurability);
+    }
+
+    public static void AddItemToInventory(IUnit unit, IItem item, EquipmentSlot slot, int durability)
+    {
+        // Adds an item to the unit's inventory in a specified slot with a specified durability.
         unit.UnitItems ??= new();
-        if (unit.UnitItems.Count == 0)
+
+        unit.UnitItems.Add(new UnitItem
         {
-            unit.UnitItems.Add(new UnitItem
-            {
-                Item = (Item)item,
-                Slot = slot,
-                Quantity = 1
-            });
-        }
-        else
-        {
-            foreach (UnitItem unitItem in unit.UnitItems)
-            {
-                if (unitItem.Item == item)
-                {
-                    unitItem.Quantity++;
-                    return;
-                }
-            }
-            unit.UnitItems.Add(new UnitItem
-            {
-                Item = (Item)item,
-                ItemId = ((Item)item).Id,
-                Unit = (Unit)unit,
-                UnitId = unit.Id,
-                Slot = slot,
-                Quantity = 1
-            });
-        }
+            Item = (Item)item,
+            ItemId = ((Item)item).Id,
+            Unit = (Unit)unit,
+            UnitId = unit.Id,
+            Slot = slot,
+            Durability = durability
+        });
     }
 
     public static void RemoveItemFromInventory(IUnit unit, IItem item)

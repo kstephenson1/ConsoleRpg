@@ -32,9 +32,4 @@ public class Stat : IDatabaseEntity
     public int Resistance { get; set; }         // RES
 
     public Stat() { }
-
-    public int GetMaxCarryWeight()
-    {
-        return (Constitution + Strength) * 2;
-    }
 }

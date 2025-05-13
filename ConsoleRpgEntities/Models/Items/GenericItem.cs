@@ -10,9 +10,5 @@
         }
         public GenericItem(string name, string desc)
             : base(name, desc) { }
-        public override string ToString()
-        {
-            return $"{Name}";
-        }
     }
 }
