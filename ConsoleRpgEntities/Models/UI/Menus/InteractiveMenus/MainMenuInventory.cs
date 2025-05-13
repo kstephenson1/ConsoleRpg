@@ -1,4 +1,5 @@
-﻿using ConsoleRpgEntities.Services.Repositories;
+﻿using ConsoleRpgEntities.Services;
+using ConsoleRpgEntities.Services.Repositories;
 using Spectre.Console;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
@@ -7,10 +8,12 @@ public class MainMenuInventory : InteractiveMenu
 {
     // The MainMenu contains items that have 4 parts, the index, the name, the description, and the action that
     // is completed when that menu item is chosen.  It loops until the menu is exited.
+    private CharacterUtilities _characterUtilities;
     private ItemService _itemService;
     bool _exit = false;
-    public MainMenuInventory(ItemService itemService)
+    public MainMenuInventory(CharacterUtilities characterUtilities, ItemService itemService)
     {
+        _characterUtilities = characterUtilities;
         _itemService = itemService;
     }
     public void AddMenuItem(string name, string desc, Action action)
@@ -55,6 +58,7 @@ public class MainMenuInventory : InteractiveMenu
         AddMenuItem("List Armor Sorted by Defense", "Lists all armors from weakest to strongest defense.", _itemService.ListItemsByDefense);
         AddMenuItem("List Armor Sorted by Resistance", "Lists all armors from weakest to stringest resistance.", _itemService.ListItemsByResistance);
         AddMenuItem("List Armor Sorted by Durability", "Lists all equippable items from least to most durability.", _itemService.ListItemsByDurability);
+        AddMenuItem("Find units with Item", "Enter item name and search for all characters with that item.", _characterUtilities.DisplayUnitsWithItem);
         AddMenuItem("Go Back", "", End);
         BuildTable("");
     }

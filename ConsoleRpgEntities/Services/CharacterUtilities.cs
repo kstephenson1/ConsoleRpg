@@ -20,6 +20,8 @@ public class CharacterUtilities
     private readonly CharacterUI _characterUI;
     private readonly LevelUpCharacterMenu _levelUpMenu;
     private readonly UnitService _unitService;
+    private readonly UnitItemService _unitItemService;
+    private readonly ItemService _itemService;
     private readonly StatFactory _statFactory;
     private readonly StatService _statService;
     private readonly RoomMenu _roomMenu;
@@ -27,12 +29,14 @@ public class CharacterUtilities
     private readonly PartyUnitSelectionMenu _partyUnitSelectionMenu;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(AbilityTypeSelectionMenu abilitySelectionMenu, CharacterUI characterUI, ClassTypeSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu partyUnitSelectionMenu)
+    public CharacterUtilities(AbilityTypeSelectionMenu abilitySelectionMenu, CharacterUI characterUI, ClassTypeSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, UnitItemService unitItemService, ItemService itemService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu partyUnitSelectionMenu)
     {
         _abilitySelectionMenu = abilitySelectionMenu;
         _characterUI = characterUI;
         _levelUpMenu = levelUpMenu;
         _unitService = unitService;
+        _unitItemService = unitItemService;
+        _itemService = itemService;
         _statFactory = statFactory;
         _statService = statService;
         _roomMenu = roomMenu;
@@ -300,6 +304,40 @@ public class CharacterUtilities
         else
         {
             Console.WriteLine($"{unit.Name} has no abilities.");
+        }
+    }
+
+    public void DisplayUnitsWithItem()
+    {
+        string itemName = Input.GetString("Enter the name of the item to search for: ");
+        List<Item> items = _itemService.GetAll().Where(i => i.Name.ToLower().Contains(itemName.ToLower())).ToList();
+        List<UnitItem> unitItems = _unitItemService.GetAll().Where(ui => items.Contains(ui.Item)).ToList();
+
+        if (!unitItems.Any())
+        {
+            AnsiConsole.MarkupLine($"[Red]No items found containing the input \"{itemName}\"[/]\n");
+            return;
+        }
+
+        List<Unit> units = new();
+
+        foreach (UnitItem item in unitItems)
+        {
+            if (units.Contains(item.Unit)) continue;
+            units.Add(item.Unit);
+        }
+
+        if (units.Any())
+        {
+            Console.WriteLine($"Units with {itemName}:");
+            foreach (Unit unit in units)
+            {
+                _characterUI.DisplayCharacterInfo(unit);
+            }
+        }
+        else
+        {
+            Console.WriteLine($"No units found with {itemName}.");
         }
     }
 }
