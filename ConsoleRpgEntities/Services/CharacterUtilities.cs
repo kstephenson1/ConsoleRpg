@@ -4,7 +4,6 @@ using ConsoleRpgEntities.Config;
 using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.UI.Character;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services.DataHelpers;
 using ConsoleRpgEntities.Models.Interfaces;
@@ -13,40 +12,34 @@ using Spectre.Console;
 using ConsoleRpgEntities.Services.Repositories;
 using ConsoleRpgEntities.Models.Items;
 using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.UI;
+using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 public class CharacterUtilities
 {
-    private readonly AbilityTypeSelectionMenu _abilitySelectionMenu;
     private readonly CharacterUI _characterUI;
-    private readonly LevelUpCharacterMenu _levelUpMenu;
     private readonly UnitService _unitService;
     private readonly UnitItemService _unitItemService;
     private readonly ItemService _itemService;
     private readonly StatFactory _statFactory;
     private readonly StatService _statService;
-    private readonly RoomMenu _roomMenu;
-    private readonly ClassTypeSelectionMenu _unitClassMenu;
-    private readonly PartyUnitSelectionMenu _partyUnitSelectionMenu;
+    private readonly UserInterface _ui;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(AbilityTypeSelectionMenu abilitySelectionMenu, CharacterUI characterUI, ClassTypeSelectionMenu unitClassMenu, LevelUpCharacterMenu levelUpMenu, UnitService unitService, UnitItemService unitItemService, ItemService itemService, StatService statService, RoomMenu roomMenu, StatFactory statFactory, PartyUnitSelectionMenu partyUnitSelectionMenu)
+    public CharacterUtilities(CharacterUI characterUI, UnitService unitService, UnitItemService unitItemService, ItemService itemService, StatService statService, StatFactory statFactory, UserInterface userInterface)
     {
-        _abilitySelectionMenu = abilitySelectionMenu;
         _characterUI = characterUI;
-        _levelUpMenu = levelUpMenu;
         _unitService = unitService;
         _unitItemService = unitItemService;
         _itemService = itemService;
         _statFactory = statFactory;
         _statService = statService;
-        _roomMenu = roomMenu;
-        _unitClassMenu = unitClassMenu;
-        _partyUnitSelectionMenu = partyUnitSelectionMenu;
+        _ui = userInterface;
     }
     public void NewCharacter() // Creates a new character.  Asks for name, class, level, hitpoints, and items.
     {
         string name = Input.GetString("Enter your character's name: ");
-        Type characterClass = _unitClassMenu.Display($"Please select a class for {name}", "[[Cancel Character Creation]]");
+        Type characterClass = _ui.ClassTypeSelectionMenu.Display($"Please select a class for {name}", "[[Cancel Character Creation]]");
         if (characterClass == null) return;
         int level = Input.GetInt("Enter your character's level: ", 1, Config.CHARACTER_LEVEL_MAX, $"character level must be 1-{Config.CHARACTER_LEVEL_MAX}");
 
@@ -62,7 +55,7 @@ public class CharacterUtilities
         character.UnitItems = unitItems;
 
 
-        IRoom room = _roomMenu.Display($"Select room for {character.Name}","[[No Room]]");
+        IRoom room = _ui.RoomMenu.Display($"Select room for {character.Name}","[[No Room]]");
         if (room != null)
         {
             character.CurrentRoom = (Room)room;
@@ -142,7 +135,7 @@ public class CharacterUtilities
 
     public void FindCharacterByList() // Asks the user for a name and displays a character based on input.
     {
-        IUnit unit = _partyUnitSelectionMenu.Display("Select unit to view.", "[[Cancel Character Search]]");
+        IUnit unit = _ui.PartyUnitSelectionMenu.Display("Select unit to view.", "[[Cancel Character Search]]");
 
         Console.Clear();
 
@@ -164,7 +157,7 @@ public class CharacterUtilities
 
     public Unit ReturnCharacterByList(string prompt) // Asks the user for a name and displays a character based on input.
     {
-        IUnit unit = _partyUnitSelectionMenu.Display(prompt, "[[Cancel Character Search]]");
+        IUnit unit = _ui.PartyUnitSelectionMenu.Display(prompt, "[[Cancel Character Search]]");
 
         return unit as Unit;
     }
@@ -177,7 +170,7 @@ public class CharacterUtilities
 
         if (unit != null)
         {
-            int levelModifier = _levelUpMenu.Display($"Choose how to change the level for {unit.Name}", "Go Back");
+            int levelModifier = _ui.LevelUpCharacterMenu.Display($"Choose how to change the level for {unit.Name}", "Go Back");
             _unitService.Update(unit);
             switch (levelModifier)
             {
@@ -218,12 +211,12 @@ public class CharacterUtilities
 
     public void LevelUpByList() //Asks the user for a character to level up, then displays that character.
     {
-        IUnit unit = _partyUnitSelectionMenu.Display("Select unit to view.", "[[Cancel Level Up/Down]]");
+        IUnit unit = _ui.PartyUnitSelectionMenu.Display("Select unit to view.", "[[Cancel Level Up/Down]]");
         Console.Clear();
 
         if (unit != null)
         {
-            int levelModifier = _levelUpMenu.Display($"Choose how to change the level for {unit.Name}", "Go Back");
+            int levelModifier = _ui.LevelUpCharacterMenu.Display($"Choose how to change the level for {unit.Name}", "Go Back");
             _unitService.Update(unit as Unit);
             switch (levelModifier)
             {
@@ -272,9 +265,9 @@ public class CharacterUtilities
 
     public void AddAbilityToCharacter() // Adds an ability to a character.
     {
-        Type abilityType = _abilitySelectionMenu.Display("Select an ability to add.", "[[Cancel Ability Selection]]");
+        Type abilityType = _ui.AbilityTypeSelectionMenu.Display("Select an ability to add.", "[[Cancel Ability Selection]]");
         if (abilityType == null) return;
-        IUnit unit = _partyUnitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
+        IUnit unit = _ui.PartyUnitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
         if (unit == null) return;
 
         Ability ability = (Ability)Activator.CreateInstance(abilityType);
@@ -291,7 +284,7 @@ public class CharacterUtilities
 
     public void DisplayAbilitiesForUnit()
     {
-        IUnit unit = _partyUnitSelectionMenu.Display("Select a unit to view it's abilities", "[[Go Back]]");
+        IUnit unit = _ui.PartyUnitSelectionMenu.Display("Select a unit to view it's abilities", "[[Go Back]]");
         if (unit == null) return;
         if (unit.Abilities.Any())
         {
@@ -340,4 +333,141 @@ public class CharacterUtilities
             Console.WriteLine($"No units found with {itemName}.");
         }
     }
+
+    public void ListCharactersByAttribute()
+    {
+        string attributeType = _ui.AttributeSelectionMenu.Display("Select unit attribute to search by", "[[Cancel Character Search]]");
+        if (attributeType == "") return;
+
+        List<Unit> units = new();
+        if (attributeType == "name")
+        {
+            FindCharacterByName();
+        }
+        else if (attributeType == "class")
+        {
+            Type classType = _ui.ClassTypeSelectionMenu.Display("Select class to search for", "[[Cancel Character Search]]");
+            if (classType == null) return;
+            List<Unit> allUnits = _unitService.GetAll().ToList();
+            foreach (Unit unit in allUnits)
+            {
+                if (classType.IsInstanceOfType(unit))
+                {
+                    units.Add(unit);
+                }
+            }
+            if (units.Count == 0)
+            {
+                AnsiConsole.MarkupLine($"[Red]No characters found with the class {classType.Name}[/]\n");
+                return;
+            }
+            _characterUI.DisplayCharacterInfo(units);
+        }
+        else
+        {
+            if (attributeType == "") return;
+            string operandType = _ui.OperandSelectionMenu.Display("Select operand to search by", "[[Cancel Character Search]]");
+            if (operandType == "") return;
+
+            int compareValue = Input.GetInt($"Search for characters where {attributeType} {operandType} ", 0, "Value must be zero or greater.");
+
+            List<Unit> allUnits = _unitService.GetAll().ToList();
+            foreach (Unit unit in allUnits)
+            {
+                if (DoesAttributeMatchConditions(unit, attributeType, operandType, compareValue))
+                {
+                    units.Add(unit);
+                }
+            }
+
+            if (units.Count == 0)
+            {
+                AnsiConsole.MarkupLine($"[Red]No characters found where {attributeType} {operandType} {compareValue}[/]\n");
+                return;
+            }
+
+            _characterUI.DisplayCharacterInfo(units);
+        }
+    }
+
+    private bool DoesAttributeMatchConditions(Unit unit, string attributeType, string operand, int compareValue)
+    {
+        int attributeValue = GetAttributeFromUnit(unit, attributeType);
+        if (operand == "<")
+        {
+            return attributeValue < compareValue;
+        }
+        else if (operand == "<=")
+        {
+            return attributeValue <= compareValue;
+        }
+        else if (operand == "==")
+        {
+            return attributeValue == compareValue;
+        }
+        else if (operand == ">=")
+        {
+            return attributeValue >= compareValue;
+        }
+        else if (operand == ">")
+        {
+            return attributeValue > compareValue;
+        }
+
+        return false;
+    }
+
+    private int GetAttributeFromUnit(Unit unit, string attributeType)
+    {
+        int attributeValue = 0;
+        switch (attributeType)
+        {
+            case "name":
+                break;
+            case "class":
+                break;
+            case "hp":
+                attributeValue = unit.Stat.MaxHitPoints;
+                break;
+            case "level":
+                attributeValue = unit.Level;
+                break;
+            case "strength":
+                attributeValue = unit.Stat.Strength;
+                break;
+            case "magic":
+                attributeValue = unit.Stat.Magic;
+                break;
+            case "dexterity":
+                attributeValue = unit.Stat.Dexterity;
+                break;
+            case "speed":
+                attributeValue = unit.Stat.Speed;
+                break;
+            case "luck":
+                attributeValue = unit.Stat.Luck;
+                break;
+            case "defense":
+                attributeValue = unit.Stat.Defense;
+                break;
+            case "resistance":
+                attributeValue = unit.Stat.Resistance;
+                break;
+        }
+        return attributeValue;
+    }
+    /*
+     * 
+     *      AddMenuItem($"Name", $"Search by name.", "name");
+            AddMenuItem($"Class", $"Search by unit class.", "class");
+            AddMenuItem($"Hit Points", $"Search by hit points value.", "hp");
+            AddMenuItem($"Level", $"Search by level.", "level");
+            AddMenuItem($"Strength", $"Search by strength stat.", "strength");
+            AddMenuItem($"Magic", $"Search by magic stat.", "magic");
+            AddMenuItem($"Dexterity", $"Search by dexterity stat.", "dexterity");
+            AddMenuItem($"Speed", $"Search by speed stat.", "speed");
+            AddMenuItem($"Luck", $"Search by luck stat.", "luck");
+            AddMenuItem($"Defense", $"Search by defense stat.", "defense");
+            AddMenuItem($"Resistance", $"Search by resistance stat.", "resistance");
+     * */
 }

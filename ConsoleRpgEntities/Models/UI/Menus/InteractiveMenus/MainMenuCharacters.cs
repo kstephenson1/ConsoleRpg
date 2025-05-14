@@ -51,6 +51,7 @@ public class MainMenuCharacters : InteractiveMenu
         AddMenuItem("Edit Character", "Select a unit and change it's properties.", _characterUtilities.EditCharacter);
         AddMenuItem("Find Character by Name", "Finds an existing character by name.", _characterUtilities.FindCharacterByName);
         AddMenuItem("Find Character by List", "Shows a list of units to select from", _characterUtilities.FindCharacterByList);
+        AddMenuItem("Find Character by Attribute", "Search a character by name, class, stats, etc.", _characterUtilities.ListCharactersByAttribute);
         AddMenuItem("Edit Level of Character by Search", "Level up/down a selected character.", _characterUtilities.LevelUp);
         AddMenuItem("Edit Level of Character by List", "Level up/down a selected character.", _characterUtilities.LevelUpByList);
         AddMenuItem("Go Back", "", End);
