@@ -2,53 +2,22 @@
 using ConsoleRpgEntities.Services.Repositories;
 using Spectre.Console;
 
-namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+namespace ConsoleRpgEntities.Models.UI.Menus.MainMenus;
 
-public class MainMenuInventory : InteractiveMenu
+public class MainMenuInventory : MainMenu
 {
     // The MainMenu contains items that have 4 parts, the index, the name, the description, and the action that
     // is completed when that menu item is chosen.  It loops until the menu is exited.
     private CharacterUtilities _characterUtilities;
     private ItemService _itemService;
-    bool _exit = false;
+
     public MainMenuInventory(CharacterUtilities characterUtilities, ItemService itemService)
     {
         _characterUtilities = characterUtilities;
         _itemService = itemService;
     }
-    public void AddMenuItem(string name, string desc, Action action)
-    {
-        _menuItems.Add(new InteractiveSelectionMenuItem<Action>(_menuItems.Count, name, desc, action));
-    }
 
-    public void Action(int selection)
-    {
-        // The Action method takes in a selecion from the main menu, then triggers the action associated with that menu item.
-        List<InteractiveSelectionMenuItem<Action>> menuItems = new();
-
-        foreach (MenuItem item in _menuItems) // Casts each of the MenuItems into MainMenuItems so the actions can work.
-        {
-            menuItems.Add((InteractiveSelectionMenuItem<Action>)item);
-        }
-
-        menuItems[selection].Selection(); // Runs the action selected.
-    }
-
-    public virtual void Display()
-    {
-        _exit = false;
-        while (_exit != true)
-        {
-            Console.Clear();
-            Update();
-            Show();
-            ConsoleKey key = ReturnValidKey();
-            DoKeyAction(key, out _exit);
-            if (_exit) break;
-        }
-    }
-
-    public void Update()
+    protected override void Update(string exitMessage)
     {
         _menuItems = new();
         AddMenuItem("Search for Item by Name", "Finds a list of items based on search.", _itemService.SearchItemByName);
@@ -59,25 +28,8 @@ public class MainMenuInventory : InteractiveMenu
         AddMenuItem("List Armor Sorted by Resistance", "Lists all armors from weakest to stringest resistance.", _itemService.ListItemsByResistance);
         AddMenuItem("List Armor Sorted by Durability", "Lists all equippable items from least to most durability.", _itemService.ListItemsByDurability);
         AddMenuItem("Find units with Item", "Enter item name and search for all characters with that item.", _characterUtilities.DisplayUnitsWithItem);
-        AddMenuItem("Go Back", "", End);
-        BuildTable("");
-    }
-
-    protected override bool MenuSelectEnter()
-    {
-        Action(_selectedIndex);
-        return _selectedIndex == _menuItems.Count - 1 ? true : false;
-    }
-
-    private void End()
-    {
-        _exit = true;
-    }
-
-    protected override void WaitForEnterPress()
-    {
-        if (_exit) return;
-        base.WaitForEnterPress();
+        AddMenuItem(exitMessage, "", End);
+        BuildTable();
     }
 }
 

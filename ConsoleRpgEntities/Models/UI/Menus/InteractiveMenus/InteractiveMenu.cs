@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using ConsoleRpgEntities.Models.UI.Menus.MenuItems;
+using Spectre.Console;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
@@ -36,7 +37,7 @@ public abstract class InteractiveMenu : Menu
         }
     }
 
-    protected override void BuildTable(string exitMessage)
+    protected override void BuildTable()
     {
         _table = new();
         // Creates a table using Spectre.Console and stores that table for later.
@@ -123,10 +124,10 @@ public abstract class InteractiveMenu : Menu
                 break;
         }
     }
-    public virtual void Update(string exitMessage)
+    protected virtual void Update(string exitMessage)
     {
-        BuildTable(exitMessage);
+        BuildTable();
     }
-    public int GetSelectedIndex() => _selectedIndex;
+    protected int GetSelectedIndex() => _selectedIndex;
 }
 

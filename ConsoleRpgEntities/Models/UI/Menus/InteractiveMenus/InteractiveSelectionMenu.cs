@@ -1,4 +1,6 @@
-﻿namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+﻿using ConsoleRpgEntities.Models.UI.Menus.MenuItems;
+
+namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 public abstract class InteractiveSelectionMenu<T> : InteractiveMenu
 {
@@ -16,7 +18,6 @@ public abstract class InteractiveSelectionMenu<T> : InteractiveMenu
     {
         _menuItems.Add(new InteractiveSelectionMenuItem<T>(_menuItems.Count, name, desc, selection));
     }
-
     public virtual T Display(string prompt, string exitMessage)
     {
         T selection = default!;
@@ -32,6 +33,7 @@ public abstract class InteractiveSelectionMenu<T> : InteractiveMenu
         }
         return selection;
     }
+
 
     public T GetSelection(int selection)
     {

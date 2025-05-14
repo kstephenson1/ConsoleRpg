@@ -26,7 +26,7 @@ public class StatSelectionMenu : InteractiveSelectionMenu<string>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(stat, exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -34,7 +34,7 @@ public class StatSelectionMenu : InteractiveSelectionMenu<string>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         throw new ArgumentException("Update(StatSelectionMenu) requires a stat.");
     }

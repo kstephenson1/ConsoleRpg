@@ -10,12 +10,10 @@ public class EnemyUnitSelectionMenu : InteractiveSelectionMenu<IUnit>
     // and displays a list of units to select from. It returns the selected unit or null if the user exits the menu.
 
     private readonly UnitService _unitService;
-    private readonly StatService _statService;
 
-    public EnemyUnitSelectionMenu(StatService statService, UnitService unitService)
+    public EnemyUnitSelectionMenu(UnitService unitService)
     {
         _unitService = unitService;
-        _statService = statService;
     }
 
     public override IUnit Display(string prompt, string exitMessage   )
@@ -27,7 +25,7 @@ public class EnemyUnitSelectionMenu : InteractiveSelectionMenu<IUnit>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -35,7 +33,7 @@ public class EnemyUnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         _menuItems = new();
 

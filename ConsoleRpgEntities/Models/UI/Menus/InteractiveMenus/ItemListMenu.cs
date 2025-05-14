@@ -28,7 +28,7 @@ public class ItemListMenu : InteractiveSelectionMenu<IItem>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -36,7 +36,7 @@ public class ItemListMenu : InteractiveSelectionMenu<IItem>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         _menuItems = new();
         List<IItem> items = [.. _itemService.GetAll().ToList()];

@@ -1,6 +1,7 @@
-﻿using Spectre.Console;
+﻿using ConsoleRpgEntities.Models.UI.Menus.MenuItems;
+using Spectre.Console;
 
-namespace ConsoleRpgEntities.Models.UI.Menus;
+namespace ConsoleRpgEntities.Models.UI.Menus.ExitMenus;
 
 public class ExitMenu : Menu
 {
@@ -13,7 +14,7 @@ public class ExitMenu : Menu
     public ExitMenu()
     {
         Update();
-        BuildTable(null!);
+        BuildTable();
     }
 
     public void Display()

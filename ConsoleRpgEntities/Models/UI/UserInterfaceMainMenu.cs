@@ -1,5 +1,5 @@
-﻿using ConsoleRpgEntities.Models.UI.Menus;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+﻿using ConsoleRpgEntities.Models.UI.Menus.ExitMenus;
+using ConsoleRpgEntities.Models.UI.Menus.MainMenus;
 
 namespace ConsoleRpgEntities.Models.UI;
 
@@ -7,14 +7,14 @@ namespace ConsoleRpgEntities.Models.UI;
 public class UserInterfaceMainMenu
 {
     public ExitMenu Exit { get; private set; }
-    public MainMenu MainMenu { get; private set; }
+    public MainMenuRoot MainMenu { get; private set; }
     public MainMenuAbilities Abilities { get; private set; }
     public MainMenuCharacters Characters { get; private set; }
     public MainMenuInventory Inventory { get; private set; }
     public MainMenuRooms Rooms { get; private set; }
 
 
-    public UserInterfaceMainMenu(ExitMenu exitMenu, MainMenu mainMenu, MainMenuInventory mainMenuInventory, MainMenuAbilities mainMenuAbilities, MainMenuCharacters mainMenuCharacters, MainMenuRooms mainMenuRooms)
+    public UserInterfaceMainMenu(ExitMenu exitMenu, MainMenuRoot mainMenu, MainMenuInventory mainMenuInventory, MainMenuAbilities mainMenuAbilities, MainMenuCharacters mainMenuCharacters, MainMenuRooms mainMenuRooms)
     {
         Exit = exitMenu;
         MainMenu = mainMenu;

@@ -29,7 +29,7 @@ public class RoomMenu : InteractiveSelectionMenu<IRoom>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -37,7 +37,7 @@ public class RoomMenu : InteractiveSelectionMenu<IRoom>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         _menuItems = new();
         List<Room> rooms = _roomService.GetAll().ToList();

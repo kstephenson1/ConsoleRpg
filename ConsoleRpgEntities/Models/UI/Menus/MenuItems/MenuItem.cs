@@ -1,4 +1,4 @@
-﻿namespace ConsoleRpgEntities.Models.UI.Menus;
+﻿namespace ConsoleRpgEntities.Models.UI.Menus.MenuItems;
 public class MenuItem
 {
     // MenuItem is an object to be stored in a menu.  It holds an index and a name.

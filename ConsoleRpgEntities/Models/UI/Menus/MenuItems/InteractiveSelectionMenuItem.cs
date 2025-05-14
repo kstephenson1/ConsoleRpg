@@ -1,4 +1,4 @@
-﻿namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+﻿namespace ConsoleRpgEntities.Models.UI.Menus.MenuItems;
 public class InteractiveSelectionMenuItem<T> : InteractiveMenuItem
 {
     // The InteractiveReturnMenuItem is used to store information about the selection in the main menu.  This stores the index and name (from the base),

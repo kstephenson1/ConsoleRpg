@@ -20,7 +20,7 @@ public class LevelUpCharacterMenu : InteractiveSelectionMenu<int>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -28,7 +28,7 @@ public class LevelUpCharacterMenu : InteractiveSelectionMenu<int>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         _menuItems = new();
 

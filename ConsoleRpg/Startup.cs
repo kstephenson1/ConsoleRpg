@@ -7,8 +7,9 @@ using ConsoleRpgEntities.Models.Items;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.UI;
 using ConsoleRpgEntities.Models.UI.Character;
-using ConsoleRpgEntities.Models.UI.Menus;
+using ConsoleRpgEntities.Models.UI.Menus.ExitMenus;
 using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+using ConsoleRpgEntities.Models.UI.Menus.MainMenus;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services;
 using ConsoleRpgEntities.Services.Repositories;
@@ -61,6 +62,7 @@ public static class Startup
         services.AddTransient<MainMenuCharacters>();
         services.AddTransient<MainMenuInventory>();
         services.AddTransient<MainMenuRooms>();
+        services.AddTransient<MainMenuRoot>();
         services.AddTransient<OperandSelectionMenu>();
         services.AddTransient<PartyUnitSelectionMenu>();
         services.AddTransient<RoomFactory>();

@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using ConsoleRpgEntities.Models.UI.Menus.MenuItems;
+using Spectre.Console;
 
 namespace ConsoleRpgEntities.Models.UI.Menus;
 
@@ -16,7 +17,7 @@ public abstract class Menu
         _menuItems.Add(new MenuItem(_menuItems.Count + 1, name));
     }
 
-    protected virtual void BuildTable(string exitMessage) // Builds and stores a custom table for the menu using the menu items stored.
+    protected virtual void BuildTable() // Builds and stores a custom table for the menu using the menu items stored.
     {
         _table.AddColumn("Header");
 
@@ -31,7 +32,5 @@ public abstract class Menu
     {
         AnsiConsole.Write(_table);
     }
-
-    public int Count() => _menuItems.Count; //Returns the number of menu items.
 }
 

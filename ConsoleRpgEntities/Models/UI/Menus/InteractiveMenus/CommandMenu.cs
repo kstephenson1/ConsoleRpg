@@ -6,7 +6,6 @@ using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Commands;
 using ConsoleRpgEntities.Models.Interfaces.InventoryBehaviors;
 using ConsoleRpgEntities.Models.Interfaces.UnitBehaviors;
-using ConsoleRpgEntities.Models.Abilities;
 using ConsoleRpgEntities.Models.Commands.AbilityCommands;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
@@ -39,7 +38,7 @@ public class CommandMenu : InteractiveSelectionMenu<ICommand>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(unit, exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -47,7 +46,7 @@ public class CommandMenu : InteractiveSelectionMenu<ICommand>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         throw new ArgumentException("Update(unit) requires a unit.");
     }

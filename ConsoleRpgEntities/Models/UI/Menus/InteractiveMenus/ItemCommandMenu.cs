@@ -25,7 +25,7 @@ public class ItemCommandMenu : InteractiveSelectionMenu<ICommand>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(unit, item, exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -33,7 +33,7 @@ public class ItemCommandMenu : InteractiveSelectionMenu<ICommand>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         throw new ArgumentException("Update(item) requires an item.");
     }

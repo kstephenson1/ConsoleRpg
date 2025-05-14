@@ -1,7 +1,5 @@
 ﻿using ConsoleRpgEntities.Models.Abilities;
-using ConsoleRpgEntities.Models.Commands.AbilityCommands;
 using ConsoleRpgEntities.Models.Interfaces;
-using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
@@ -25,7 +23,7 @@ public class AbilitySelectionMenu : InteractiveSelectionMenu<Ability>
             Console.Clear();
             Console.WriteLine(prompt);
             Update(unit, exitMessage);
-            BuildTable(exitMessage);
+            BuildTable();
             Show();
             ConsoleKey key = ReturnValidKey();
             selection = DoKeyActionReturnUnit(key, out exit);
@@ -33,7 +31,7 @@ public class AbilitySelectionMenu : InteractiveSelectionMenu<Ability>
         return selection;
     }
 
-    public override void Update(string exitMessage)
+    protected override void Update(string exitMessage)
     {
         throw new ArgumentException("Update(item) requires an item.");
     }
