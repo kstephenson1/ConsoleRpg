@@ -30,6 +30,7 @@ public static class Startup
         services.AddTransient<AbilitySelectionMenu>();
         services.AddTransient<AbilityService>();
         services.AddTransient<AbilityTypeSelectionMenu>();
+        services.AddTransient<AttributeSelectionMenu>();
         services.AddTransient<CharacterUtilities>();
         services.AddTransient<CharacterUI>();
         services.AddTransient<CombatHandler>();
@@ -60,6 +61,7 @@ public static class Startup
         services.AddTransient<MainMenuCharacters>();
         services.AddTransient<MainMenuInventory>();
         services.AddTransient<MainMenuRooms>();
+        services.AddTransient<OperandSelectionMenu>();
         services.AddTransient<PartyUnitSelectionMenu>();
         services.AddTransient<RoomFactory>();
         services.AddTransient<RoomMenu>();
@@ -75,6 +77,7 @@ public static class Startup
         services.AddTransient<UnitItemService>();
         services.AddTransient<UnitService>();
         services.AddTransient<UserInterface>();
+        services.AddTransient<UserInterfaceMainMenu>();
     }
 
     private readonly static ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder =>

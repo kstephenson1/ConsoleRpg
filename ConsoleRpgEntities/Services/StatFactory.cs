@@ -1,6 +1,6 @@
 ﻿using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Interfaces;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+using ConsoleRpgEntities.Models.UI;
 using ConsoleRpgEntities.Services.Repositories;
 using System.ComponentModel;
 
@@ -8,16 +8,16 @@ namespace ConsoleRpgEntities.Services;
 
 public class StatFactory
 {
-    private readonly StatSelectionMenu _statSelectionMenu;
     private readonly StatService _statService;
+    private readonly UserInterface _ui;
     const int MAX_HIT_POINTS = 60;
     const int MAX_STAT_POINTS = 20;
 
     private Random Random { get; } = new Random();
-    public StatFactory(StatSelectionMenu statSelectionMenu, StatService statService)
+    public StatFactory(StatService statService, UserInterface userInterface)
     {
-        _statSelectionMenu = statSelectionMenu;
         _statService = statService;
+        _ui = userInterface;
     }
     public Stat CreateStat(IUnit unit)
     {
@@ -31,7 +31,7 @@ public class StatFactory
             statsRemaining = Random.Next(1, 7); // 1-6 stats to assign per level
             while (statsRemaining > 0)
             {
-                string statSelection = _statSelectionMenu.Display(stat, $"Congratulations! {unit.Name} is level {unit.Level - levelsRemaining + 1} (Increase up to {statsRemaining} stats this level)", "[[Sacrifice level up for no reason]]");
+                string statSelection = _ui.StatSelectionMenu.Display(stat, $"Congratulations! {unit.Name} is level {unit.Level - levelsRemaining + 1} (Increase up to {statsRemaining} stats this level)", "[[Sacrifice level up for no reason]]");
                 if (statSelection == null) return stat; // User selected cancel
                 switch (statSelection)
                 {

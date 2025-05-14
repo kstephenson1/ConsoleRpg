@@ -2,24 +2,24 @@
 
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using ConsoleRpgEntities.Models.Rooms;
+using ConsoleRpgEntities.Models.UI;
 using ConsoleRpgEntities.Models.UI.Character;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 using ConsoleRpgEntities.Services.DataHelpers;
 using ConsoleRpgEntities.Services.Repositories;
 using Spectre.Console;
 
 public class RoomUtilities
 {
-    private RoomMenu _roomMenu;
     private RoomService _roomService;
     private RoomUI _roomUi;
+    private UserInterface _ui;
     // RoomUtilities class contains fuctions that manipulate rooms based on user input.
 
-    public RoomUtilities(RoomMenu roomMenu, RoomService roomService, RoomUI roomUi)
+    public RoomUtilities(RoomService roomService, RoomUI roomUi, UserInterface userInterface)
     {
-        _roomMenu = roomMenu;
         _roomService = roomService;
         _roomUi = roomUi;
+        _ui = userInterface;
     }
     public void CreateRoom()
     {
@@ -43,7 +43,7 @@ public class RoomUtilities
             "-------------------" +
             "     EDIT ROOM     " +
             "-------------------\n");
-        IRoom room = _roomMenu.Display("Select a room to edit.", "[[Cancel Room Edit]]");
+        IRoom room = _ui.RoomMenu.Display("Select a room to edit.", "[[Cancel Room Edit]]");
         if (room != null)
         {
             string newName = Input.GetString($"Please enter a new name for {room.Name}. (Leave blank to keep name) ", false);
@@ -90,7 +90,7 @@ public class RoomUtilities
 
     public void FindRoomByList() // Asks the user for a name and displays a character based on input.
     {
-        Room room = (Room)_roomMenu.Display("Select room to view.", "[[Cancel Room Search]]");
+        Room room = (Room)_ui.RoomMenu.Display("Select room to view.", "[[Cancel Room Search]]");
 
         Console.Clear();
 

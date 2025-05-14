@@ -1,26 +1,26 @@
 ﻿using ConsoleRpgEntities.DataTypes;
 using ConsoleRpgEntities.Models.Dungeons;
 using ConsoleRpgEntities.Models.Rooms;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+using ConsoleRpgEntities.Models.UI;
 
 namespace ConsoleRpgEntities.Services;
 
 public class DungeonFactory
 {
     private readonly RoomFactory _roomFactory;
-    private RoomNavigationMenu _roomNavigationMenu;
+    private readonly UserInterface _ui;
 
-    public DungeonFactory(RoomFactory roomFactory, RoomNavigationMenu roomNavigationMenu)
+    public DungeonFactory(RoomFactory roomFactory, UserInterface userInterface)
     {
         _roomFactory = roomFactory;
-        _roomNavigationMenu = roomNavigationMenu;
+
     }
     public Dungeon CreateDungeon(string dungeonName)
     {
         switch (dungeonName)
         {
             case "intro":
-                Dungeon dungeon = new Dungeon(_roomNavigationMenu);
+                Dungeon dungeon = new Dungeon(_ui.RoomNavigationMenu);
                 Room entrance = _roomFactory.CreateRoom("intro.entrance");
                 Room jail = _roomFactory.CreateRoom("intro.jail");
                 Room kitchen = _roomFactory.CreateRoom("intro.kitchen");

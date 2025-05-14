@@ -1,5 +1,4 @@
-﻿using ConsoleRpgEntities.Models.UI.Menus;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
+﻿using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 namespace ConsoleRpgEntities.Models.UI;
 
@@ -7,27 +6,50 @@ namespace ConsoleRpgEntities.Models.UI;
 public class UserInterface
 {
     public AbilitySelectionMenu AbilitySelectionMenu { get; private set; }
+    public AbilityTypeSelectionMenu AbilityTypeSelectionMenu { get; private set; }
+    public AttributeSelectionMenu AttributeSelectionMenu { get; private set; }
+    public ClassTypeSelectionMenu ClassTypeSelectionMenu { get; private set; }
     public CommandMenu CommandMenu { get; private set; }
-    public ExitMenu ExitMenu { get; private set; }
+    public EnemyUnitSelectionMenu EnemyUnitSelectionMenu { get; private set; }
     public ItemCommandMenu ItemCommandMenu { get; private set; }
     public InventoryMenu InventoryMenu { get; private set; }
-    public MainMenu MainMenu { get; private set; }
-    public MainMenuInventory MainMenuInventory { get; private set; }
+    public LevelUpCharacterMenu LevelUpCharacterMenu { get; private set; }
+    public OperandSelectionMenu OperandSelectionMenu { get; private set; }
     public PartyUnitSelectionMenu PartyUnitSelectionMenu { get; private set; }
-    public EnemyUnitSelectionMenu EnemyUnitSelectionMenu { get; private set; }
-    public ClassTypeSelectionMenu UnitClassMenu { get; private set; }
+    public RoomMenu RoomMenu { get; private set; }
+    public RoomNavigationMenu RoomNavigationMenu { get; private set; }
+    public StatSelectionMenu StatSelectionMenu { get; private set; }
 
-    public UserInterface(AbilitySelectionMenu abilitySelectionMenu, MainMenu mainMenu, MainMenuInventory mainMenuInventory, PartyUnitSelectionMenu partyUnitSelectionMenu, EnemyUnitSelectionMenu enemyUnitSelectionMenu, ExitMenu exitMenu, CommandMenu commandMenu, InventoryMenu inventoryMenu, ItemCommandMenu itemCommandMenu, ClassTypeSelectionMenu unitClassMenu)
+
+    public UserInterface(
+        AbilitySelectionMenu abilitySelectionMenu,
+        AttributeSelectionMenu attributeSelectionMenu,
+        AbilityTypeSelectionMenu abilityTypeSelectionMenu,
+        ClassTypeSelectionMenu classTypeSelectionMenu,
+        CommandMenu commandMenu,
+        EnemyUnitSelectionMenu enemyUnitSelectionMenu,
+        ItemCommandMenu itemCommandMenu,
+        InventoryMenu inventoryMenu,
+        LevelUpCharacterMenu levelUpCharacterMenu,
+        OperandSelectionMenu operandSelectionMenu,
+        PartyUnitSelectionMenu partyUnitSelectionMenu,
+        RoomMenu roomMenu,
+        RoomNavigationMenu roomNavigationMenu,
+        StatSelectionMenu statSelectionMenu)
     {
         AbilitySelectionMenu = abilitySelectionMenu;
+        AbilityTypeSelectionMenu = abilityTypeSelectionMenu;
+        AttributeSelectionMenu = attributeSelectionMenu;
+        ClassTypeSelectionMenu = classTypeSelectionMenu;
         CommandMenu = commandMenu;
         EnemyUnitSelectionMenu = enemyUnitSelectionMenu;
-        ExitMenu = exitMenu;
-        ItemCommandMenu = itemCommandMenu;
         InventoryMenu = inventoryMenu;
-        MainMenu = mainMenu;
-        MainMenuInventory = mainMenuInventory;
+        ItemCommandMenu = itemCommandMenu;
+        LevelUpCharacterMenu = levelUpCharacterMenu;
+        OperandSelectionMenu = operandSelectionMenu;
         PartyUnitSelectionMenu = partyUnitSelectionMenu;
-        UnitClassMenu = unitClassMenu;
+        RoomMenu = roomMenu;
+        RoomNavigationMenu = roomNavigationMenu;
+        StatSelectionMenu = statSelectionMenu;
     }
 }

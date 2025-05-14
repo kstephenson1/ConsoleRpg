@@ -1,20 +1,23 @@
 ﻿using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Models.UI;
+using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 using ConsoleRpgEntities.Services;
 
 namespace ConsoleRpg.Services;
 
 public class GameEngine
 {
+    private readonly CombatHandler _combatHandler;
     private readonly SeedHandler _seedHandler;
     private readonly UserInterface _userInterface;
-    private readonly CombatHandler _combatHandler;
+    private readonly UserInterfaceMainMenu _mainMenu;
 
-    public GameEngine(SeedHandler seedHandler, UserInterface userInterface, CombatHandler combatHandler)
+    public GameEngine(CombatHandler combatHandler, UserInterfaceMainMenu mainMenu, SeedHandler seedHandler, UserInterface userInterface)
     {
+        _combatHandler = combatHandler;
+        _mainMenu = mainMenu;
         _seedHandler = seedHandler;
         _userInterface = userInterface;
-        _combatHandler = combatHandler;
     }
 
     public void StartGameEngine()
@@ -35,7 +38,7 @@ public class GameEngine
         // Runs the main game loop. This is where the game starts and runs until the user chooses to exit.
 
         // Shows the main menu and waits for the user to choose an option.
-        _userInterface.MainMenu.Display("[[Start Game]]");
+        _mainMenu.MainMenu.Display("[[Start Game]]");
 
         // Starts the combat handler, which is the main game loop.
         _combatHandler.StartCombat();
@@ -44,6 +47,6 @@ public class GameEngine
     public void End()
     {
         // Ends the game and exits the program.
-        _userInterface.ExitMenu.Show();
+        _mainMenu.Exit.Show();
     }
 }
