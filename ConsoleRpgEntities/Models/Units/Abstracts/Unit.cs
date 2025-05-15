@@ -50,6 +50,7 @@ public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IDatab
 
     public virtual Stat Stat { get; set; }
     public virtual List<Ability> Abilities { get; } = new();
+    public bool IsTurnDepleted { get; set; }
 
     public Unit()
     {

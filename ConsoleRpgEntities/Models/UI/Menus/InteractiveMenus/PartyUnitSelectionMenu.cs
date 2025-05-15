@@ -54,7 +54,7 @@ public class PartyUnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         foreach (IUnit unit in characters)
         {
             // Strikethrough and dim the unit info if the unit is not alive.
-            if (unit.Stat.HitPoints <= 0)
+            if (unit.Stat.HitPoints <= 0 || unit.IsTurnDepleted)
             {
                 AddMenuItem($"[green][dim][strikethrough]{unit.Name} Level {unit.Level} {unit.Class}[/][/][/]", $" {unit.GetHealthBar()}", unit);
             }

@@ -1,4 +1,5 @@
 ﻿using ConsoleRpgEntities.Models.Items;
+using ConsoleRpgEntities.Models.Rooms;
 
 namespace ConsoleRpgEntities.Services.Repositories;
 public class UnitItemService : IService<UnitItem>

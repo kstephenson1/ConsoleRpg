@@ -22,6 +22,7 @@ public class MainMenuRooms : MainMenu
         AddMenuItem("Edit Room", "Edits an existing room.", _roomUtilities.EditRoom);
         AddMenuItem("Find Room by Name", "Finds a room based on search.", _roomUtilities.FindRoomByName);
         AddMenuItem("Find Room by List", "Finds a room chosen by a list.", _roomUtilities.FindRoomByList);
+        AddMenuItem("Navigate rooms", "Select a character and navigate the rooms", _roomUtilities.Navigate);
         AddMenuItem(exitMessage, "", End);
         BuildTable();
     }

@@ -10,6 +10,7 @@ using ConsoleRpgEntities.Models.Interfaces.UnitBehaviors;
 using ConsoleRpgEntities.Models.Commands.AbilityCommands;
 using ConsoleRpgEntities.Models.Abilities;
 using ConsoleRpgEntities.Services.Repositories;
+using ConsoleRpgEntities.Models.Abilities.UnitAbilities;
 
 namespace ConsoleRpgEntities.Services;
 
@@ -22,12 +23,13 @@ public class CommandHandler
         _unitItemService = unitItemService;
         _userInterface = userInterface;
     }
-    public void HandleCommand(ICommand command, IUnit unit)
+    public bool HandleCommand(ICommand command, IUnit unit)
 	{
         // If the unit is able to move, the unit moves.
         if (command.GetType() == typeof(MoveCommand))
         {
             unit.Move();
+            return true;
         }
 
         // If the unit has a usable item, it can use an item.
@@ -52,21 +54,21 @@ public class CommandHandler
                         {
                             case UnequipCommand:
                                 unit.Unequip((item as IEquippableItem)!);
-                                break;
+                                return true;
                             case EquipCommand:
                                 unit.Equip((item as IEquippableItem)!);
-                                break;
+                                return true;
                             case UseItemCommand:
                                 unit.UseItem(item);
-                                break;
+                                return true;
                             case TradeItemCommand:
                                 IUnit tradeTarget = _userInterface.PartyUnitSelectionMenu.Display($"Select unit to trade {item} to.", "[[Go Back]]");
                                 unit.TradeItem(item, tradeTarget, _unitItemService);
                                 _unitItemService.Commit();
-                                break;
+                                return true;
                             case DropItemCommand:
                                 unit.DropItem(item);
-                                break;
+                                return true;
                             default:
                                 break;
                         }
@@ -87,6 +89,7 @@ public class CommandHandler
                 if (targetUnit != null)
                 {
                     unit.Attack(targetUnit);
+                    return true;
                 }
             }
             else
@@ -99,12 +102,22 @@ public class CommandHandler
         {
             string spell = Input.GetString($"Enter name of spell being cast by {unit.Name}: ");
             ((ICastable)unit).Cast(spell);
+            return true;
         }
         else if (command.GetType() == typeof(AbilityCommand))
         {
             Ability ability = _userInterface.AbilitySelectionMenu.Display(unit, "Select ability to use", "[[Go Back]]");
-            IUnit target = _userInterface.EnemyUnitSelectionMenu.Display($"Select target for {ability.Name}.", "[[Go Back]]");
+            IUnit target;
+
+            if (ability is HealAbility)
+                target = _userInterface.PartyUnitSelectionMenu.Display($"Select target for {ability.Name}.", "[[Go Back]]");
+            else
+                target = _userInterface.EnemyUnitSelectionMenu.Display($"Select target for {ability.Name}.", "[[Go Back]]");
+
             unit.UseAbility(ability, target);
+            return true;
         }
+
+        return false;
     }
 }

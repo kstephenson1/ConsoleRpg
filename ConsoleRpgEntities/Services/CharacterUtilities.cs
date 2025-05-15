@@ -71,7 +71,7 @@ public class CharacterUtilities
 
     public void EditCharacter() // Asks the user for a name and displays a character based on input.
     {
-        Unit character = ReturnCharacterByList("Select unit to edit.");
+        IUnit character = ReturnCharacterByList("Select unit to edit.");
         Console.Clear();
         if (character != null)
         {
@@ -111,7 +111,7 @@ public class CharacterUtilities
                 Console.WriteLine($"{character.Name}'s hitpoints have not been changed.");
             }
 
-            _unitService.Update(character);
+            _unitService.Update((Unit)character);
             _unitService.Commit();
         }
     }
@@ -155,11 +155,11 @@ public class CharacterUtilities
         return unit;
     }
 
-    public Unit ReturnCharacterByList(string prompt) // Asks the user for a name and displays a character based on input.
+    public IUnit ReturnCharacterByList(string prompt) // Asks the user for a name and displays a character based on input.
     {
         IUnit unit = _ui.PartyUnitSelectionMenu.Display(prompt, "[[Cancel Character Search]]");
 
-        return unit as Unit;
+        return unit;
     }
 
     public void LevelUp() //Asks the user for a character to level up, then displays that character.

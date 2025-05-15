@@ -1,6 +1,7 @@
 ﻿using ConsoleRpgEntities.Models.Commands.Invokers;
 using ConsoleRpgEntities.Models.Commands.ItemCommands;
 using ConsoleRpgEntities.Models.Items;
+using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Interfaces.InventoryBehaviors;

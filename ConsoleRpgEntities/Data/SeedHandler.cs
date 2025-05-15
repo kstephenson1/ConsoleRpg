@@ -522,15 +522,15 @@ public class SeedHandler
         Room jail = _roomFactory.CreateRoom("intro.jail");
         Room kitchen = _roomFactory.CreateRoom("intro.kitchen");
         Room hallway = _roomFactory.CreateRoom("intro.hallway");
-        Room library = _roomFactory.CreateRoom("intro.entrance");
+        Room library = _roomFactory.CreateRoom("intro.library");
         Room dwelling = _roomFactory.CreateRoom("intro.dwelling");
         Room dwelling2 = _roomFactory.CreateRoom("intro.dwelling2");
-        entrance.AddAdjacentRoom(jail, Direction.West);
-        entrance.AddAdjacentRoom(kitchen, Direction.East);
-        entrance.AddAdjacentRoom(hallway, Direction.North);
-        hallway.AddAdjacentRoom(dwelling2, Direction.West);
-        hallway.AddAdjacentRoom(library, Direction.East);
-        hallway.AddAdjacentRoom(dwelling, Direction.North);
+        entrance.JoinAdjacentRooms(jail, Direction.West);
+        entrance.JoinAdjacentRooms(kitchen, Direction.East);
+        entrance.JoinAdjacentRooms(hallway, Direction.North);
+        hallway.JoinAdjacentRooms(dwelling2, Direction.West);
+        hallway.JoinAdjacentRooms(library, Direction.East);
+        hallway.JoinAdjacentRooms(dwelling, Direction.North);
         _rooms.AddRange<Room>(entrance, jail, kitchen, hallway, library, dwelling, dwelling2);
 
         dungeon.StartingRoom = entrance;

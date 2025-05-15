@@ -10,7 +10,8 @@ public interface IRoom
     string Name { get; set; }
     string Description { get; set; }
     List<Unit>? Units { get; set; }
+    List<AdjacentRoom> AdjacentRooms { get; set; }
     //List<AdjacentRoom> AdjacentRooms { get; set; }
     void OnRoomEnter(Unit unit);
-    void AddAdjacentRoom(Room room, Direction direction);
+    void JoinAdjacentRooms(Room room, Direction direction);
 }

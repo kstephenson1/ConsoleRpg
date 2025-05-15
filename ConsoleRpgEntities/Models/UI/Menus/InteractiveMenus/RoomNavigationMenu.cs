@@ -1,4 +1,5 @@
 ﻿using ConsoleRpgEntities.Models.Interfaces.Rooms;
+using ConsoleRpgEntities.Models.Rooms;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
@@ -32,17 +33,17 @@ public class RoomNavigationMenu : InteractiveSelectionMenu<IRoom>
 
     protected override void Update(string exitMessage)
     {
-        throw new ArgumentException("Update(item) requires an item.");
+        throw new ArgumentException("Update(item) requires a room.");
     }
 
     public void Update(IRoom room, string exitMessage)
     {
         _menuItems = new();
 
-        //foreach (AdjacentRoom adjacentRoom in room.AdjacentRooms)
-        //{
-        //    AddMenuItem($"{adjacentRoom.Direction.ToString()}", $"{adjacentRoom.Adjacent.Name}", adjacentRoom.Adjacent);
-        //}
+        foreach (AdjacentRoom adjacentRoom in room.AdjacentRooms)
+        {
+            AddMenuItem($"Go {adjacentRoom.Direction.ToString()} to {adjacentRoom.ConnectingRoom.Name}", $"{adjacentRoom.ConnectingRoom.Description}", adjacentRoom.ConnectingRoom);
+        }
 
         AddMenuItem(exitMessage, "", null!);
     }

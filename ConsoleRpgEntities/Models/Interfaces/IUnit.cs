@@ -22,6 +22,7 @@ public interface IUnit : ITargetable, IAttack, IHaveInventory, IUseItems
     Room? CurrentRoom { get; set; }
     public Stat Stat { get; set; }
     public List<Ability> Abilities { get; }
+    public bool IsTurnDepleted { get; set; }
 
     void Move();
     void UseAbility(Ability ability, IUnit target);

@@ -2,7 +2,6 @@
 using ConsoleRpg.Services;
 using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Models.UI;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 using ConsoleRpgEntities.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,11 +26,10 @@ static class Program
 
         CombatHandler combatHandler = provider.GetRequiredService<CombatHandler>();
         SeedHandler seedHandler = provider.GetRequiredService<SeedHandler>();
-        UserInterface userInterface = provider.GetRequiredService<UserInterface>();
         UserInterfaceMainMenu mainMenu = provider.GetRequiredService<UserInterfaceMainMenu>();
 
         // Creates the game engine and starts it. The game engine is the main class that runs the game.
-        GameEngine engine = new(combatHandler, mainMenu, seedHandler, userInterface);
+        GameEngine engine = new(combatHandler, mainMenu, seedHandler);
         engine.StartGameEngine();
     }
 }

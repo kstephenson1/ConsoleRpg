@@ -1,21 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ConsoleRpgEntities.DataTypes;
+﻿using ConsoleRpgEntities.DataTypes;
+using ConsoleRpgEntities.Services.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConsoleRpgEntities.Models.Rooms;
 
-public class AdjacentRoom
+[PrimaryKey("RoomId", "ConnectingRoomId")]
+public class AdjacentRoom : IDatabaseEntity
 {
-    [Key]
-    public Room Room { get; set; }
+    // UnitItem is a class that holds the properties of an item that is owned by a unit. It is used to store the
+    // properties of an item that is owned by a unit.
+    [NotMapped]
+    public int Id => throw new NotImplementedException();
 
-    [Key]
-    public Direction Direction { get; set; }
+    [ForeignKey("Room")]
+    public int RoomId { get; set; }
+    public virtual Room Room { get; set; }
+
+    [ForeignKey("ConnectingRoom")]
+    public int ConnectingRoomId { get; set; }
+    public virtual Room ConnectingRoom { get; set; }
+
+    public virtual Direction Direction { get; set; } = Direction.None;
 
     public AdjacentRoom() { }
 
-    public AdjacentRoom(Room room, Direction direction)
+    public AdjacentRoom(Room room, Room connectingRoom, Direction direction)
     {
         Room = room;
+        ConnectingRoom = connectingRoom;
         Direction = direction;
     }
 }

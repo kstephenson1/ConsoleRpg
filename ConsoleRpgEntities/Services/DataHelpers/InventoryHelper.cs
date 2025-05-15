@@ -2,6 +2,7 @@
 using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
 using ConsoleRpgEntities.Models.Items;
+using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services.Repositories;
 using System.Security.Cryptography;

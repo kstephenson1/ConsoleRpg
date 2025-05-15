@@ -53,6 +53,7 @@ public class Repository<T> : IRepository<T> where T : class, IDatabaseEntity
         return typeof(T).Name switch
         {
             nameof(Dungeon) => _db.Dungeons as DbSet<T>,
+            nameof(AdjacentRoom) => _db.AdjacentRooms as DbSet<T>,
             nameof(Room) => _db.Rooms as DbSet<T>,
             nameof(Unit) => _db.Units as DbSet<T>,
             nameof(Stat) => _db.Stats as DbSet<T>,

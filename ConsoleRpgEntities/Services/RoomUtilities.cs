@@ -1,24 +1,30 @@
 ﻿namespace ConsoleRpgEntities.Services;
 
+using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.UI;
 using ConsoleRpgEntities.Models.UI.Character;
+using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services.DataHelpers;
 using ConsoleRpgEntities.Services.Repositories;
 using Spectre.Console;
 
 public class RoomUtilities
 {
-    private RoomService _roomService;
-    private RoomUI _roomUi;
-    private UserInterface _ui;
-    // RoomUtilities class contains fuctions that manipulate rooms based on user input.
+    // RoomUtilities is a class that contains functions that manipulate and navigate the rooms based on user input.
+    private readonly CharacterUtilities _characterUtilities;
+    private readonly RoomService _roomService;
+    private readonly RoomUI _roomUi;
+    private readonly UnitService _unitService;
+    private readonly UserInterface _ui;
 
-    public RoomUtilities(RoomService roomService, RoomUI roomUi, UserInterface userInterface)
+    public RoomUtilities(CharacterUtilities characterUtilities, RoomService roomService, RoomUI roomUi, UnitService unitService, UserInterface userInterface)
     {
+        _characterUtilities = characterUtilities;
         _roomService = roomService;
         _roomUi = roomUi;
+        _unitService = unitService;
         _ui = userInterface;
     }
     public void CreateRoom()
@@ -119,40 +125,33 @@ public class RoomUtilities
         _roomUi.DisplayRooms(rooms);
     }
 
-    //public void AddAbilityToCharacter() // Adds an ability to a character.
-    //{
-    //    Type abilityType = _abilitySelectionMenu.Display("Select an ability to add.", "[[Cancel Ability Selection]]");
-    //    if (abilityType == null) return;
-    //    IUnit unit = _partyUnitSelectionMenu.Display($"Select unit to add the {abilityType.Name} ability to.", "[[Cancel Ability Selection]]");
-    //    if (unit == null) return;
+    public void Navigate()
+    {
+        IUnit unit = _characterUtilities.ReturnCharacterByList("Select a character to navigate rooms with. ");
 
-    //    Ability ability = (Ability)Activator.CreateInstance(abilityType);
+        Console.Clear();
+        Console.WriteLine(
+            "-------------------" +
+            "   NAVIGATE ROOMS   " +
+            "-------------------\n");
+        IRoom room = unit.CurrentRoom!;
 
-    //    if (unit is Unit)
-    //    {
-    //        Unit character = (Unit)unit;
-    //        character.Abilities.Add(ability);
-    //        _unitService.Update(character);
-    //        _unitService.Commit();
-    //        AnsiConsole.MarkupLine($"Added ability [#00ffff]{ability.Name}[/] to [#00ffff]{unit.Name}[/]");
-    //    }
-    //}
+        do
+        {
+            room = _ui.RoomNavigationMenu.Display(unit.CurrentRoom!, $"{unit.Name} finds themself in {unit.CurrentRoom.Description}", "[[Stay in this room]]");
+            if (room == null) break;
+            unit.CurrentRoom = room as Room;
+            Console.WriteLine($"{unit.Name} moved to the room named \"{room.Name}\"");
+            _roomUi.DisplayRoom((room as Room)!);
+        } while (room != null);
 
-    //public void DisplayAbilitiesForUnit()
-    //{
-    //    IUnit unit = _partyUnitSelectionMenu.Display("Select a unit to view it's abilities", "[[Go Back]]");
-    //    if (unit == null) return;
-    //    if (unit.Abilities.Any())
-    //    {
-    //        Console.WriteLine($"Abilities usable by {unit.Name}:");
-    //        foreach (var ability in unit.Abilities)
-    //        {
-    //            Console.WriteLine($"{ability.Name} | {ability.Description}");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Console.WriteLine($"{unit.Name} has no abilities.");
-    //    }
-    //}
+        //_roomService.Update((room as Room)!);
+        _roomService.Commit();
+
+        //_unitService.Update((unit as Unit)!);
+        _unitService.Commit();
+
+        Console.WriteLine($"{unit.Name} is staying in the room named \"{unit.CurrentRoom.Name}\"");
+        _roomUi.DisplayRoom((unit.CurrentRoom as Room)!);
+    }
 }

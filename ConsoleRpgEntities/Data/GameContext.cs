@@ -18,6 +18,7 @@ public class GameContext : DbContext
 {
     // DbSet properties for each entity type that will be mapped to the database
     public DbSet<Dungeon> Dungeons { get; set; }
+    public DbSet<AdjacentRoom> AdjacentRooms { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Unit> Units { get; set; }
     public DbSet<Stat> Stats { get; set; }
@@ -31,7 +32,7 @@ public class GameContext : DbContext
     {
         // Configures the GameContext to be able to use the UnitType property as a discriminator for the Unit entity
         modelBuilder.Entity<Unit>()
-            .HasDiscriminator(unit => unit.UnitType)
+            .HasDiscriminator(u => u.UnitType)
             .HasValue<Cleric>(nameof(Cleric))
             .HasValue<Fighter>(nameof(Fighter))
             .HasValue<Knight>(nameof(Knight))
@@ -46,7 +47,7 @@ public class GameContext : DbContext
 
         // Configures the GameContext to be able to use the ItemType property as a discriminator for the Item entity
         modelBuilder.Entity<Item>()
-            .HasDiscriminator(item => item.ItemType)
+            .HasDiscriminator(i => i.ItemType)
             .HasValue<GenericItem>(nameof(GenericItem))
 
             .HasValue<ItemBook>(nameof(ItemBook))
@@ -63,7 +64,7 @@ public class GameContext : DbContext
 
         // Configures the GameContext to be able to use the AbilityType property as a discriminator for the Ability entity
         modelBuilder.Entity<Ability>()
-            .HasDiscriminator(ability => ability.AbilityType)
+            .HasDiscriminator(a => a.AbilityType)
             .HasValue<FlyAbility>(nameof(FlyAbility))
             .HasValue<HealAbility>(nameof(HealAbility))
             .HasValue<StealAbility>(nameof(StealAbility))
@@ -71,8 +72,23 @@ public class GameContext : DbContext
 
         // Creates a many-to-many relationship between Unit and Item and maps it to the UnitItems table
         modelBuilder.Entity<Unit>()
-        .HasMany(unit => unit.Abilities)
-        .WithMany(ability => ability.Units)
+        .HasMany(u => u.Abilities)
+        .WithMany(a => a.Units)
         .UsingEntity(join => join.ToTable("UnitAbility"));
+
+        modelBuilder.Entity<AdjacentRoom>()
+           .HasKey(ar => new { ar.RoomId, ar.ConnectingRoomId });
+
+        modelBuilder.Entity<AdjacentRoom>()
+            .HasOne(ar => ar.Room)
+            .WithMany(r => r.AdjacentRooms)
+            .HasForeignKey(ar => ar.RoomId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<AdjacentRoom>()
+            .HasOne(ar => ar.ConnectingRoom)
+            .WithMany()
+            .HasForeignKey(ar => ar.ConnectingRoomId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
