@@ -1,7 +1,5 @@
 ﻿using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using ConsoleRpgEntities.Models.UI;
-using ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 using ConsoleRpgEntities.Services;
 
 namespace ConsoleRpg.Services;
