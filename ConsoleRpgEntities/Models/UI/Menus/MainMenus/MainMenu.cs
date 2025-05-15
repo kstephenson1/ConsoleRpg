@@ -3,7 +3,7 @@ using ConsoleRpgEntities.Models.UI.Menus.MenuItems;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.MainMenus;
 
-public class MainMenu : InteractiveMenu
+public abstract class MainMenu : InteractiveMenu
 {
     // The MainMenu contains items that have 4 parts, the index, the name, the description, and the action that
     // is completed when that menu item is chosen.  It loops until the menu is exited.

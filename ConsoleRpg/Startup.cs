@@ -57,7 +57,6 @@ public static class Startup
         services.AddTransient<ItemCommandMenu>();
         services.AddTransient<ItemService>();
         services.AddTransient<LevelUpCharacterMenu>();
-        services.AddTransient<MainMenu>();
         services.AddTransient<MainMenuAbilities>();
         services.AddTransient<MainMenuCharacters>();
         services.AddTransient<MainMenuInventory>();
