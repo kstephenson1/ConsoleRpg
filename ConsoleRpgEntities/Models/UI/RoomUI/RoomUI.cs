@@ -26,7 +26,6 @@ public class RoomUI
 
     public void DisplayRoom(Room room) // Displays the rooms and their info.
     {
-
         // Creates a display table that contains all the other tables to create a nice little display.
         Table displayTable = new Table();
         displayTable
@@ -47,10 +46,7 @@ public class RoomUI
         {
             displayTable.AddRow("", "No units in this room");
         }
-
-
-
-            // Displays the table to the user.
-            AnsiConsole.Write(displayTable);
+        // Displays the table to the user.
+        AnsiConsole.Write(displayTable);
     }
 }

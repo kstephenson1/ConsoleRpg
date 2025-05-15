@@ -456,18 +456,4 @@ public class CharacterUtilities
         }
         return attributeValue;
     }
-    /*
-     * 
-     *      AddMenuItem($"Name", $"Search by name.", "name");
-            AddMenuItem($"Class", $"Search by unit class.", "class");
-            AddMenuItem($"Hit Points", $"Search by hit points value.", "hp");
-            AddMenuItem($"Level", $"Search by level.", "level");
-            AddMenuItem($"Strength", $"Search by strength stat.", "strength");
-            AddMenuItem($"Magic", $"Search by magic stat.", "magic");
-            AddMenuItem($"Dexterity", $"Search by dexterity stat.", "dexterity");
-            AddMenuItem($"Speed", $"Search by speed stat.", "speed");
-            AddMenuItem($"Luck", $"Search by luck stat.", "luck");
-            AddMenuItem($"Defense", $"Search by defense stat.", "defense");
-            AddMenuItem($"Resistance", $"Search by resistance stat.", "resistance");
-     * */
 }
